@@ -1,0 +1,22 @@
+.Home {
+  .content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+
+    .buttons {
+      display: flex;
+
+      button {
+        margin: 20px;
+
+        a {
+          font-size: 1.1em;
+          color: #fff;
+          text-decoration: none;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,16 @@
+.Header {
+  .logo {
+    display: flex;
+    align-items: baseline;
+
+    h1 {
+      padding: 20px;
+    }
+  }
+
+  .links a {
+    color: #fff;
+    text-decoration: none;
+    padding: 10px 20px;
+  }
+}
