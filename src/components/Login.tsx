@@ -2,28 +2,27 @@ import React, { useState } from 'react';
 import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
 
-import 'styles/Signup.scss';
-import { signup } from 'actions/auth';
+import 'styles/Login.scss';
+import { login } from 'actions/auth';
 import Header from 'components/Header';
 import Input from 'components/Input';
 import Wrapper from 'components/Wrapper';
 
-export default function Signup() {
+export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [repeatedPassword, setRepeatedPassword] = useState('');
   const [error, setError] = useState(null);
 
-  const handleSignup = async () => {
-    await signup({ email, password, repeatedPassword });
+  const handleLogin = async () => {
+    await login({ email, password });
   };
 
   return (
-    <div className="Signup">
+    <div className="Login">
       <Header title="Log in" />
       <Wrapper className="content">
-        <h2>Sign up</h2>
-        <form className="signup-form">
+        <h2>Log in</h2>
+        <form className="login-form">
           <Input
             label="Email"
             type="email"
@@ -34,22 +33,17 @@ export default function Signup() {
             type="password"
             handleChange={setPassword}
           />
-          <Input
-            label="Repeat password"
-            type="password"
-            handleChange={setRepeatedPassword}
-          />
           <Button
             variant="contained"
             color="primary"
             size="large"
-            onClick={handleSignup}
+            onClick={handleLogin}
           >
-            Sign up
+            Log in
           </Button>
         </form>
-        <p>Already have a account?</p>
-        <Link to="/login">Log in</Link>
+        <p>Don`t have an account?</p>
+        <Link to="/signup">Sign up</Link>
       </Wrapper>
     </div>
   );

@@ -27,6 +27,9 @@
 			"import/extensions": "off",
 			"react/prop-types": "off",
 			"react/require-default-props": "off",
+			"object-property-newline": "warn",
+			"react/jsx-max-props-per-line": [1, { "maximum": 1}],
+			"max-len": "off",
 			"linebreak-style": ["error", "windows"] // changes the file to CRLF
     },
 		"settings": {
