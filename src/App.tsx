@@ -6,10 +6,12 @@ import {
 } from 'react-router-dom';
 
 import './App.scss';
+import AdminPage from 'components/AdminPage';
 import Login from 'components/Login';
 import Signup from 'components/Signup';
 import Home from 'components/Home';
 import Tasks from 'components/Tasks';
+import PrivateRoute from 'components/PrivateRoute';
 
 function App() {
   return (
@@ -19,9 +21,15 @@ function App() {
           <Route path="/signup">
             <Signup />
           </Route>
-          <Route path="/tasks">
-            <Tasks />
-          </Route>
+          <PrivateRoute
+            component={Tasks}
+            path="/tasks"
+          />
+          <PrivateRoute
+            component={AdminPage}
+            path="/admin"
+            onlyAdminAccess
+          />
           <Route path="/login">
             <Login />
           </Route>

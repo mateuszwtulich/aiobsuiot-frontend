@@ -1,0 +1,23 @@
+.User {
+  position: relative;
+  margin-bottom: 20px;
+  background: #ddd;
+
+  .title,
+  .body2 {
+    text-align: left;
+  }
+
+  .title {
+    font-weight: bold;
+  }
+
+  .remove-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+  }
+}

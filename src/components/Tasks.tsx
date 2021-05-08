@@ -11,9 +11,14 @@ export default function Tasks() {
   return (
     <div className="Tasks">
       <Header title="Tasks" />
-      <h2>Hi there</h2>
-      <Wrapper className="content small-Padding">
-        {elements.map(((value) => <Task title={value.title} text={value.text} />))}
+      <Wrapper className="content small-padding">
+        <h2>Your tasks</h2>
+        {elements.map(((value) => (
+          <Task
+            title={value.title}
+            text={value.text}
+          />
+        )))}
       </Wrapper>
     </div>
   );

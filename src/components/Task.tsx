@@ -14,13 +14,24 @@ export default function Task({ title, text }: {title: string, text?: string}) {
     <div className="Task">
       <Card className="root">
         <CardContent>
-          <Typography className="title" color="textSecondary" gutterBottom>
+          <Typography
+            className="title"
+            color="textSecondary"
+            gutterBottom
+          >
             {title}
           </Typography>
-          <Typography className="pos" color="textSecondary">
+          <Typography
+            className="pos"
+            color="textSecondary"
+          >
             .
           </Typography>
-          <Typography className="body2" variant="body2" component="p">
+          <Typography
+            className="body2"
+            variant="body2"
+            component="p"
+          >
             {bull}
             {text}
           </Typography>
