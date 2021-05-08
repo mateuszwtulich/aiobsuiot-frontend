@@ -6,7 +6,7 @@ import 'styles/TaskForm.scss';
 import Task from 'models/Task';
 import formatDate from './utils/formatDate';
 
-export default function TaskForm({ task, sumbit }:{task?: Task, sumbit}) {
+export default function TaskForm({ task, sumbit }:{task?: Task | null, sumbit}) {
   const [title, setTitle] = useState<string>(task?.title ?? '');
   const [text, setText] = useState<string>(task?.text ?? '');
   const [finalDate, setFinalDate] = useState<Date>(task?.finalDate ?? new Date());

@@ -6,13 +6,13 @@ import User from 'components/User';
 import Header from 'components/Header';
 import Wrapper from 'components/Wrapper';
 import roles from 'consts/roles';
-import UserType from 'models/User';
+import UserModel from 'models/User';
 import CustomModal from './CustomModal';
 import UserForm from './UserForm';
 
 const { USER_ROLE, MANAGER_ROLE, ADMIN_ROLE } = roles;
 
-const initialUsers : UserType[] = [
+const initialUsers : UserModel[] = [
   {
     id: '1', name: 'Jan', surname: 'Kowalski', role: USER_ROLE,
   },
@@ -29,8 +29,12 @@ const initialUsers : UserType[] = [
 export default function AdminUsers() {
   const [users, setUsers] = useState(initialUsers);
   const [isUserkModalOpen, setUserModalOpen] = useState<boolean>(false);
+  const [edittingUser, setEdittingUser] = useState<UserModel | null>(null);
 
-  const closeModal = () => setUserModalOpen(false);
+  const closeModal = () => {
+    setEdittingUser(null);
+    setUserModalOpen(false);
+  };
 
   const handleUserAdd = (newUser) => {
     setUsers([...users, { id: Math.random() * 100, ...newUser }]);
@@ -39,6 +43,11 @@ export default function AdminUsers() {
 
   const handleUserRemove = (userId) => {
     setUsers(users.filter(({ id }) => id !== userId));
+  };
+
+  const handleUserEdit = (userId) => {
+    setEdittingUser(users.find(({ id }) => id === userId) ?? null);
+    setUserModalOpen(true);
   };
 
   return (
@@ -60,13 +69,17 @@ export default function AdminUsers() {
             key={user.id}
             user={user}
             onUserRemove={handleUserRemove}
+            onUserEdit={handleUserEdit}
           />
         )))}
         <CustomModal
           isOpen={isUserkModalOpen}
           closeModal={closeModal}
         >
-          <UserForm sumbit={handleUserAdd} />
+          <UserForm
+            user={edittingUser}
+            sumbit={handleUserAdd}
+          />
         </CustomModal>
       </Wrapper>
     </div>

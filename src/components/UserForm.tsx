@@ -4,9 +4,8 @@ import Button from '@material-ui/core/Button';
 
 import 'styles/UserForm.scss';
 import User from 'models/User';
-import formatDate from './utils/formatDate';
 
-export default function UserForm({ user, sumbit }:{user?: User, sumbit}) {
+export default function UserForm({ user, sumbit }:{user: User | null, sumbit}) {
   const [email, setEmail] = useState<string>(user?.email ?? '');
   const [password, setPassword] = useState<string>('');
   const [repeatedPassword, setRepeatedPassword] = useState<string>('');

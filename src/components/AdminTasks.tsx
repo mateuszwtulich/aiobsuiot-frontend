@@ -4,12 +4,12 @@ import '../styles/AdminTasks.scss';
 import Task from 'components/Task';
 import Header from 'components/Header';
 import Wrapper from 'components/Wrapper';
-import TaskMModel from 'models/Task';
+import TaskModel from 'models/Task';
 import { Button } from '@material-ui/core';
 import CustomModal from './CustomModal';
 import TaskForm from './TaskForm';
 
-const initialTasks : TaskMModel[] = [{
+const initialTasks : TaskModel[] = [{
   id: '1', title: 'Title1', user: 'floffler', finalDate: new Date(2021, 5, 5), text: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. ',
 },
 {
@@ -23,10 +23,14 @@ const initialTasks : TaskMModel[] = [{
 }];
 
 export default function AdminTasks() {
-  const [tasks, setTasks] = useState(initialTasks);
+  const [tasks, setTasks] = useState<TaskModel[]>(initialTasks);
   const [isTaskModalOpen, setTaskModalOpen] = useState<boolean>(false);
+  const [edittingTask, setEdittingTask] = useState<TaskModel | null>(null);
 
-  const closeModal = () => setTaskModalOpen(false);
+  const closeModal = () => {
+    setEdittingTask(null);
+    setTaskModalOpen(false);
+  };
 
   const handlTaskAdd = (newTask) => {
     setTasks([...tasks, { id: Math.random() * 100, ...newTask }]);
@@ -35,6 +39,11 @@ export default function AdminTasks() {
 
   const handleTaskRemove = (userId) => {
     setTasks(tasks.filter(({ id }) => id !== userId));
+  };
+
+  const handleTaskEdit = (taskId) => {
+    setEdittingTask(tasks.find(({ id }) => id === taskId) ?? null);
+    setTaskModalOpen(true);
   };
 
   return (
@@ -56,13 +65,17 @@ export default function AdminTasks() {
             key={task.id}
             task={task}
             onTaskRemove={handleTaskRemove}
+            onTaskEdit={handleTaskEdit}
           />
         )))}
         <CustomModal
           isOpen={isTaskModalOpen}
           closeModal={closeModal}
         >
-          <TaskForm sumbit={handlTaskAdd} />
+          <TaskForm
+            task={edittingTask}
+            sumbit={handlTaskAdd}
+          />
         </CustomModal>
       </Wrapper>
     </div>
