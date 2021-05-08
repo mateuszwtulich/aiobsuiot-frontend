@@ -1,10 +1,24 @@
 .Tasks {
+
+  form {
+    display: block;
+    text-align: left;
+  }
+  label{
+    margin-top: 5px;
+  }
+  input, button {
+    margin: 5px;
+  }
     .small-Padding{
         padding-top: 100px !important;
       }
     .content {
       width: 40%;
       text-align: center;
+    }
+    .dateField {
+      width: '25ch',
     }
   }
   
