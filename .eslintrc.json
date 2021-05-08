@@ -32,7 +32,8 @@
 			"max-len": "off",
 			"linebreak-style": "off",
 			"react/jsx-props-no-spreading": "off",
-			"react/button-has-type": "off"
+			"react/button-has-type": "off",
+			"no-tabs":"off"
     },
 		"settings": {
 			"import/resolver": {

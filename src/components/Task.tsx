@@ -4,30 +4,21 @@ import CardActions from '@material-ui/core/CardActions';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-
 import Typography from '@material-ui/core/Typography';
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+import TaskType from 'models/Task';
 
 import 'styles/Task.scss';
 
-export default function CTask({
-  title, user, finalDate, text,
-}: {title: string, user: string, finalDate:Date, text?: string}) {
-  const bull = <span className="bullet">•</span>;
+export default function Task({ task, onTaskRemove }: {task: TaskType, onTaskRemove?: (id: string) => void}) {
+  const {
+    id, title, user, finalDate, text,
+  } = task;
 
   return (
     <div className="Task">
       <Card className="root">
         <CardHeader
-          action={(
-            <IconButton aria-label="settings">
-              <MoreVertIcon>
-                a co to
-              </MoreVertIcon>
-            </IconButton>
-          )}
-          title={title}
           subheader={finalDate.toDateString()}
         />
         <CardContent>
@@ -49,13 +40,22 @@ export default function CTask({
             variant="body2"
             component="p"
           >
-            {bull}
+            <span className="bullet">•</span>
             {text}
           </Typography>
         </CardContent>
         <CardActions>
           <Button size="small">{user}</Button>
         </CardActions>
+
+        {!!onTaskRemove && (
+        <button
+          className="remove-btn"
+          onClick={() => onTaskRemove(id)}
+        >
+          <DeleteForeverIcon color="error" />
+        </button>
+        )}
       </Card>
     </div>
   );

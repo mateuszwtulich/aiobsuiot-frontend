@@ -3,7 +3,7 @@ import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
 
 import 'styles/Login.scss';
-import { login } from 'actions/auth';
+import { login } from 'hooks/useAuth';
 import Header from 'components/Header';
 import Input from 'components/Input';
 import Wrapper from 'components/Wrapper';
@@ -26,11 +26,13 @@ export default function Login() {
           <Input
             label="Email"
             type="email"
+            value={email}
             handleChange={setEmail}
           />
           <Input
             label="Password"
             type="password"
+            value={password}
             handleChange={setPassword}
           />
           <Button
