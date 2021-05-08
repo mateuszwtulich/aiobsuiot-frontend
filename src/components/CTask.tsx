@@ -31,7 +31,24 @@ export default function CTask({
           subheader={finalDate.toDateString()}
         />
         <CardContent>
-          <Typography className="body2" variant="body2" component="p">
+          <Typography
+            className="title"
+            color="textSecondary"
+            gutterBottom
+          >
+            {title}
+          </Typography>
+          <Typography
+            className="pos"
+            color="textSecondary"
+          >
+            .
+          </Typography>
+          <Typography
+            className="body2"
+            variant="body2"
+            component="p"
+          >
             {bull}
             {text}
           </Typography>
