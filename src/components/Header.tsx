@@ -1,13 +1,20 @@
-import React from 'react';
-
-import 'styles/Header.scss';
+import React, { Fragment, useState } from 'react';
+import { Link } from 'react-router-dom';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import { Link } from 'react-router-dom';
+import { Button, Drawer } from '@material-ui/core';
+
+import 'styles/Header.scss';
+import DrawerContent from './DrawerContent';
 
 export default function Header({ title }: { title: string}) {
+  const [isDrawerOpen, setDrawerOpen] = useState(false);
+  const toggleDrawer = () => {
+    setDrawerOpen((open) => !open);
+  };
+
   return (
     <header className="Header">
       <AppBar>
@@ -18,7 +25,10 @@ export default function Header({ title }: { title: string}) {
         >
           <div className="logo">
             <IconButton>
-              <MenuIcon style={{ color: '#fff' }} />
+              <MenuIcon
+                onClick={toggleDrawer}
+                style={{ color: '#fff' }}
+              />
             </IconButton>
             <h1>{title}</h1>
           </div>
@@ -32,6 +42,16 @@ export default function Header({ title }: { title: string}) {
           </div>
         </Toolbar>
       </AppBar>
+      <Fragment key="left">
+        {/* <Button onClick={toggleDrawer(anchor, true)}>{anchor}</Button> */}
+        <Drawer
+          anchor="left"
+          open={isDrawerOpen}
+          onClose={() => setDrawerOpen(false)}
+        >
+          <DrawerContent />
+        </Drawer>
+      </Fragment>
     </header>
   );
 }
