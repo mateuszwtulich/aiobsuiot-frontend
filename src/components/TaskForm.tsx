@@ -4,7 +4,9 @@ import Button from '@material-ui/core/Button';
 
 import 'styles/TaskForm.scss';
 import Task from 'models/Task';
-import formatDate from './utils/formatDate';
+import formatDate from 'utils/formatDate';
+import ErrorMessage from 'components/ErrorMessage';
+import { MISSING_FORM_VALUES } from 'consts/errors';
 
 export default function TaskForm({ task, sumbit }:{task?: Task | null, sumbit}) {
   const [title, setTitle] = useState<string>(task?.title ?? '');
@@ -12,11 +14,12 @@ export default function TaskForm({ task, sumbit }:{task?: Task | null, sumbit}) 
   const [finalDate, setFinalDate] = useState<Date>(task?.finalDate ?? new Date());
   const [error, setError] = useState<string | null>(null);
 
-  const isFormValid = () => title.trim().length > 0 && text.trim().length > 0;
+  const isFormValid = () => title.trim().length > 0;
 
   const handleSave = () => {
     if (!isFormValid()) {
-      setError('missing fields');
+      setError(MISSING_FORM_VALUES);
+      return;
     }
 
     setError(null);
@@ -57,6 +60,7 @@ export default function TaskForm({ task, sumbit }:{task?: Task | null, sumbit}) 
         InputLabelProps={{ shrink: true }}
       />
       <br />
+      <ErrorMessage error={error} />
       <div className="buttons">
         <Button
           variant="contained"

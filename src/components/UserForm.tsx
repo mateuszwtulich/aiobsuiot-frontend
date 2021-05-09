@@ -4,6 +4,9 @@ import Button from '@material-ui/core/Button';
 
 import 'styles/UserForm.scss';
 import User from 'models/User';
+import validateEmail from 'utils/validateEmail';
+import ErrorMessage from 'components/ErrorMessage';
+import { INVALID_EMAIL, INVALID_PASSWORDS, MISSING_FORM_VALUES } from 'consts/errors';
 
 export default function UserForm({ user, sumbit }:{user: User | null, sumbit}) {
   const [email, setEmail] = useState<string>(user?.email ?? '');
@@ -13,18 +16,23 @@ export default function UserForm({ user, sumbit }:{user: User | null, sumbit}) {
   const [surname, setSurname] = useState<string>(user?.surname ?? '');
   const [error, setError] = useState<string | null>(null);
 
-  const isValid = async () => {
+  const isValid = () => {
     if (email.trim().length < 1
 		|| name.trim().length < 1
 		|| password.trim().length < 1
 		|| repeatedPassword.trim().length < 1
 		|| surname.trim().length < 1) {
-      setError('missing fields');
+      setError(MISSING_FORM_VALUES);
+      return false;
+    }
+
+    if (!validateEmail(email)) {
+      setError(INVALID_EMAIL);
       return false;
     }
 
     if (password !== repeatedPassword) {
-      setError('passwords are not the same');
+      setError(INVALID_PASSWORDS);
       return false;
     }
 
@@ -90,6 +98,7 @@ export default function UserForm({ user, sumbit }:{user: User | null, sumbit}) {
       </>
       )}
       <br />
+      <ErrorMessage error={error} />
       <div className="buttons">
         <Button
           variant="contained"

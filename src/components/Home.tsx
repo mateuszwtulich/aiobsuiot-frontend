@@ -13,12 +13,20 @@ export default function Home() {
       <Wrapper className="content">
         <h2>Hi there</h2>
         <div className="buttons">
-          <Button variant="contained" color="primary" size="large">
+          <Button
+            variant="contained"
+            color="primary"
+            size="large"
+          >
             <Link to="/login">
               Log in
             </Link>
           </Button>
-          <Button variant="contained" color="primary" size="large">
+          <Button
+            variant="contained"
+            color="primary"
+            size="large"
+          >
             <Link to="/signup">
               Sign up
             </Link>

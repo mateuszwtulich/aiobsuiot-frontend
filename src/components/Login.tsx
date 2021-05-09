@@ -7,14 +7,34 @@ import { login } from 'hooks/useAuth';
 import Header from 'components/Header';
 import Input from 'components/Input';
 import Wrapper from 'components/Wrapper';
+import { INVALID_EMAIL, MISSING_FORM_VALUES } from 'consts/errors';
+import validateEmail from '../utils/validateEmail';
+import ErrorMessage from './ErrorMessage';
 
 export default function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState(null);
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [error, setError] = useState<string | null>(null);
+
+  const isValid = () => {
+    if (email.trim().length < 1
+		|| password.trim().length < 1) {
+      setError(MISSING_FORM_VALUES);
+      return false;
+    }
+
+    if (!validateEmail(email)) {
+      setError(INVALID_EMAIL);
+      return false;
+    }
+
+    return true;
+  };
 
   const handleLogin = async () => {
-    await login({ email, password });
+    if (isValid()) {
+      await login({ email, password });
+    }
   };
 
   return (
@@ -35,6 +55,7 @@ export default function Login() {
             value={password}
             handleChange={setPassword}
           />
+          <ErrorMessage error={error} />
           <Button
             variant="contained"
             color="primary"

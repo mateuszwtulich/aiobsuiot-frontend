@@ -7,6 +7,9 @@ import { signup } from 'hooks/useAuth';
 import Header from 'components/Header';
 import Input from 'components/Input';
 import Wrapper from 'components/Wrapper';
+import { INVALID_EMAIL, INVALID_PASSWORDS, MISSING_FORM_VALUES } from 'consts/errors';
+import ErrorMessage from './ErrorMessage';
+import validateEmail from '../utils/validateEmail';
 
 export default function Signup() {
   const [email, setEmail] = useState<string>('');
@@ -16,18 +19,23 @@ export default function Signup() {
   const [surname, setSurname] = useState<string>('');
   const [error, setError] = useState<string | null>(null);
 
-  const isValid = async () => {
+  const isValid = () => {
     if (email.trim().length < 1
 		|| password.trim().length < 1
 		|| repeatedPassword.trim().length < 1
 		|| name.trim().length < 1
 		|| surname.trim().length < 1) {
-      setError('missing fileds');
+      setError(MISSING_FORM_VALUES);
+      return false;
+    }
+
+    if (!validateEmail(email)) {
+      setError(INVALID_EMAIL);
       return false;
     }
 
     if (password !== repeatedPassword) {
-      setError('passwords are not the same');
+      setError(INVALID_PASSWORDS);
       return false;
     }
 
@@ -75,6 +83,7 @@ export default function Signup() {
             handleChange={setRepeatedPassword}
             value={repeatedPassword}
           />
+          <ErrorMessage error={error} />
           <Button
             variant="contained"
             color="primary"
