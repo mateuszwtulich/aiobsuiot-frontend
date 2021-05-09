@@ -36,8 +36,13 @@ export default function AdminUsers() {
     setUserModalOpen(false);
   };
 
-  const handleUserAdd = (newUser) => {
-    setUsers([...users, { id: Math.random() * 100, ...newUser }]);
+  const handleUserSubmit = (newUser) => {
+    if (edittingUser) {
+      const newUsers = users.map((user) => (user.id === edittingUser.id ? { ...user, ...newUser } : user));
+      setUsers(newUsers);
+    } else {
+      setUsers([...users, { id: Math.random() * 100, ...newUser }]);
+    }
     closeModal();
   };
 
@@ -78,7 +83,7 @@ export default function AdminUsers() {
         >
           <UserForm
             user={edittingUser}
-            sumbit={handleUserAdd}
+            sumbit={handleUserSubmit}
           />
         </CustomModal>
       </Wrapper>

@@ -33,7 +33,12 @@ export default function AdminTasks() {
   };
 
   const handlTaskAdd = (newTask) => {
-    setTasks([...tasks, { id: Math.random() * 100, ...newTask }]);
+    if (edittingTask) {
+      const newTasks = tasks.map((task) => (task.id === edittingTask.id ? { ...tasks, ...newTask } : task));
+      setTasks(newTasks);
+    } else {
+      setTasks([...tasks, { id: Math.random() * 100, ...newTask }]);
+    }
     closeModal();
   };
 

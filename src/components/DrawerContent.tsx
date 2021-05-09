@@ -9,22 +9,36 @@ import GroupIcon from '@material-ui/icons/Group';
 import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
 
 import 'styles/DrawerContent.scss';
+import { Link } from 'react-router-dom';
 
 export default function DrawerContent() {
   return (
     <div className="DrawerContent">
+      <h2>Menu</h2>
       <List>
         <ListItem button>
-          <ListItemIcon>
-            <AssignmentTurnedInIcon />
-          </ListItemIcon>
-          <ListItemText primary="Tasks" />
+          <Link to="/tasks">
+            <ListItemIcon>
+              <AssignmentTurnedInIcon />
+            </ListItemIcon>
+            <ListItemText primary="My tasks" />
+          </Link>
         </ListItem>
         <ListItem button>
-          <ListItemIcon>
-            <GroupIcon />
-          </ListItemIcon>
-          <ListItemText primary="Users" />
+          <Link to="/admin/tasks">
+            <ListItemIcon>
+              <AssignmentTurnedInIcon />
+            </ListItemIcon>
+            <ListItemText primary="Admin tasks" />
+          </Link>
+        </ListItem>
+        <ListItem button>
+          <Link to="/admin/users">
+            <ListItemIcon>
+              <GroupIcon />
+            </ListItemIcon>
+            <ListItemText primary="Admin users" />
+          </Link>
         </ListItem>
       </List>
       <Divider />

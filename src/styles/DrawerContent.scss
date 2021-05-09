@@ -2,4 +2,19 @@
   min-width: 350px;
   padding-left: 30px;
   padding-top: 50px;
+
+  h2 {
+    margin-bottom: 30px;
+  }
+
+  .MuiListItem-root {
+    padding-left: 0;
+  }
+
+  a {
+    width: 100%;
+    display: flex;
+    text-decoration: none;
+    color: #333;
+  }
 }

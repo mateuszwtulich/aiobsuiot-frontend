@@ -52,8 +52,8 @@ export default function TaskForm({ task, sumbit }:{task?: Task | null, sumbit}) 
         label="Due date"
         type="date"
         className="dateField"
-        value={formatDate(finalDate)}
         defaultValue={formatDate(finalDate)}
+        onChange={(e) => setFinalDate(new Date(e.target.value))}
         InputLabelProps={{ shrink: true }}
       />
       <br />
