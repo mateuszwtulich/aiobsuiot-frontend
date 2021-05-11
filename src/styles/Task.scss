@@ -6,8 +6,8 @@
   input {
     min-width: 300px;
   }
-  .root {
-    min-width: 275;
+  .MuiCardHeader-root, .MuiCardContent-root {
+    padding-bottom: 0 !important;
   }
   .bullet {
     display: "inline-block";

@@ -34,18 +34,39 @@ export default function Tasks() {
     closeModal();
   };
 
+  const fetchTasks = async () => {
+    const res = await fetch('http://localhost:8090/user/v1/roles');
+    const data = await res.json();
+
+    console.log(data);
+  };
+
+  const fetchData = () => {
+    fetchTasks();
+  };
+
   return (
     <div className="Tasks">
       <Header title="Tasks" />
-      <Wrapper className="content small-padding">
-        <Button
-          variant="contained"
-          color="primary"
-          size="large"
-          onClick={() => setTaskModalOpen(true)}
-        >
-          Add new task
-        </Button>
+      <Wrapper className="content">
+        <div className="top">
+          <h2>My Tasks</h2>
+          <Button
+            variant="contained"
+            color="primary"
+            size="large"
+            onClick={() => setTaskModalOpen(true)}
+          >
+            Add new task
+          </Button>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => fetchData()}
+          >
+            fetch
+          </Button>
+        </div>
         {tasks.map(((task) => (
           <Task
             key={task.id}
