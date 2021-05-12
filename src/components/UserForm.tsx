@@ -7,6 +7,10 @@ import User from 'models/User';
 import validateEmail from 'utils/validateEmail';
 import ErrorMessage from 'components/ErrorMessage';
 import { INVALID_EMAIL, INVALID_PASSWORDS, MISSING_FORM_VALUES } from 'consts/errors';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
 
 export default function UserForm({ user, sumbit }:{user: User | null, sumbit}) {
   const [email, setEmail] = useState<string>(user?.email ?? '');
@@ -15,6 +19,7 @@ export default function UserForm({ user, sumbit }:{user: User | null, sumbit}) {
   const [name, setName] = useState<string>(user?.name ?? '');
   const [surname, setSurname] = useState<string>(user?.surname ?? '');
   const [error, setError] = useState<string | null>(null);
+  const [role, setRole] = useState<string>(user?.roleEto?.id ?? '');
 
   const isValid = () => {
     if (email.trim().length < 1
@@ -43,10 +48,14 @@ export default function UserForm({ user, sumbit }:{user: User | null, sumbit}) {
     if (isValid()) {
       setError(null);
       const newUser = {
-        email, password, repeatedPassword, name, surname,
+        email, password, repeatedPassword, name, surname, role,
       };
       sumbit(newUser);
     }
+  };
+
+  const handleRoleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+    setRole(event.target.value as string);
   };
 
   return (
@@ -97,6 +106,19 @@ export default function UserForm({ user, sumbit }:{user: User | null, sumbit}) {
         />
       </>
       )}
+      <FormControl >
+        <InputLabel id="demo-simple-select-label">Role</InputLabel>
+        <Select
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value={role}
+          onChange={handleRoleChange}
+        >
+          <MenuItem value={100}>ADMIN</MenuItem>
+          <MenuItem value={101}>MANAGER</MenuItem>
+          <MenuItem value={102}>USER</MenuItem>
+        </Select>
+      </FormControl>
       <br />
       <ErrorMessage error={error} />
       <div className="buttons">

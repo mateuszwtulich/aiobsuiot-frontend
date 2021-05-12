@@ -1,3 +1,5 @@
+import RoleEto from 'models/RoleEto';
+
 type User = {
 	id: string,
 	email?: string,
@@ -6,6 +8,7 @@ type User = {
 	name: string,
 	surname: string,
 	role: string
+	roleEto?: RoleEto
 }
 
 export default User;

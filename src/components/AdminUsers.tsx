@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button } from '@material-ui/core';
 
 import '../styles/AdminUsers.scss';
@@ -9,27 +9,32 @@ import roles from 'consts/roles';
 import UserModel from 'models/User';
 import CustomModal from './CustomModal';
 import UserForm from './UserForm';
+import { fetchUsers, addUser, removeUser} from 'services/userService'
 
 const { USER_ROLE, MANAGER_ROLE, ADMIN_ROLE } = roles;
 
-const initialUsers : UserModel[] = [
-  {
-    id: '1', name: 'Jan', surname: 'Kowalski', role: USER_ROLE,
-  },
-  {
-    id: '2', name: 'Kamil', surname: 'Nowak', role: USER_ROLE,
-  },
-  {
-    id: '3', name: 'Janusz', surname: 'Fraś', role: MANAGER_ROLE,
-  },
-  {
-    id: '4', name: 'Mariusz', surname: 'Sobecki', role: ADMIN_ROLE,
-  }];
-
 export default function AdminUsers() {
-  const [users, setUsers] = useState(initialUsers);
+  const [users, setUsers] = useState<UserModel[]>([]);
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
   const [isUserkModalOpen, setUserModalOpen] = useState<boolean>(false);
   const [edittingUser, setEdittingUser] = useState<UserModel | null>(null);
+
+	useEffect(() => {
+    fetch();
+  }, []);
+
+  const fetch = async () => {
+    const { err, users: fetchedUsers } = await fetchUsers();
+    
+    if (err) {
+      setError(err);
+    } else {
+      setUsers(fetchedUsers);
+    }
+    setLoading(false);
+  };
+  
 
   const closeModal = () => {
     setEdittingUser(null);
@@ -41,12 +46,20 @@ export default function AdminUsers() {
       const newUsers = users.map((user) => (user.id === edittingUser.id ? { ...user, ...newUser } : user));
       setUsers(newUsers);
     } else {
+      addUser(newUser)
       setUsers([...users, { id: Math.random() * 100, ...newUser }]);
     }
     closeModal();
   };
 
-  const handleUserRemove = (userId) => {
+  const handleUserRemove = async (userId : string) => {
+    const {err} = await removeUser(userId);
+
+		if(err) {
+			setError(err);
+		} else {
+			setError(null);
+		}
     setUsers(users.filter(({ id }) => id !== userId));
   };
 
