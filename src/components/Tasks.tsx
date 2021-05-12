@@ -22,25 +22,29 @@ export default function Tasks() {
 	const {authUser} = useAuth();
 
 	console.log(authUser);
-	
 
   const closeModal = () => setTaskModalOpen(false);
 
-  const handleAddTask = (newTask: TaskModel) => {
-		addTask({task: newTask, userId:authUser.userId});
+  const handleAddTask = async (newTask: TaskModel) => {
+		await addTask({task: newTask, userId:authUser.userId});
+		await fetch();
     closeModal();
   };
 
+	const fetch = async () => {
+		const { err, tasks: fetchedTasks } = await fetchTasks();
+
+		console.log(fetchedTasks);
+		
+		if (err) {
+			setError(err);
+		} else {
+			setTasks(fetchedTasks);
+		}
+		setLoading(false);
+	};
+
   useEffect(() => {
-    const fetch = async () => {
-      const { err, tasks: fetchedTasks } = await fetchTasks();
-      if (err) {
-        setError(err);
-      } else {
-        setTasks(fetchedTasks);
-      }
-      setLoading(false);
-    };
     fetch();
   }, []);
 

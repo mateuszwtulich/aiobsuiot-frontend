@@ -1,7 +1,9 @@
+import User from "./User";
+
 type Task = {
   id : string,
   name : string,
-  user : string,
+  userTo : User,
   finalDate : Date,
 }
 

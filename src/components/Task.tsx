@@ -8,20 +8,20 @@ import Typography from '@material-ui/core/Typography';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import EditIcon from '@material-ui/icons/Edit';
 
-import TaskType from 'models/Task';
+import TaskModel from 'models/Task';
 
 import 'styles/Task.scss';
 
-export default function Task({ task, onTaskRemove, onTaskEdit }: {task: TaskType, onTaskRemove?, onTaskEdit?}) {
+export default function Task({ task, onTaskRemove, onTaskEdit }: {task: TaskModel, onTaskRemove?, onTaskEdit?}) {
   const {
-    id, name, user, finalDate,
+    id, name, userTo, finalDate,
   } = task;
 
   return (
     <div className="Task">
       <Card className="root">
         <CardHeader
-          subheader={finalDate.toDateString()}
+          subheader={finalDate}
         />
         <CardContent>
           <Typography
@@ -39,7 +39,7 @@ export default function Task({ task, onTaskRemove, onTaskEdit }: {task: TaskType
           </Typography>
         </CardContent>
         <CardActions>
-          <Button size="small">{user}</Button>
+          <Button size="small">{`${userTo.name} ${userTo.surname}`}</Button>
         </CardActions>
         <div className="butttons">
           {!!onTaskRemove && (
