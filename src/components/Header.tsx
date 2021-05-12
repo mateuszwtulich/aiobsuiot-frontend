@@ -1,10 +1,11 @@
 import React, { Fragment, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import { Drawer } from '@material-ui/core';
+import { isLoggedIn, signOut } from 'services/authService';
 
 import 'styles/Header.scss';
 import DrawerContent from './DrawerContent';
@@ -13,6 +14,13 @@ export default function Header({ title }: { title: string}) {
   const [isDrawerOpen, setDrawerOpen] = useState(false);
   const toggleDrawer = () => {
     setDrawerOpen((open) => !open);
+  };
+
+  const isLogged = isLoggedIn();
+  const history = useHistory();
+
+  const handleSigOut = () => {
+    signOut(history);
   };
 
   return (
@@ -33,12 +41,17 @@ export default function Header({ title }: { title: string}) {
             <h1>{title}</h1>
           </div>
           <div className="links">
-            <Link to="/login">
-              Log in
-            </Link>
-            <Link to="/signup">
-              Sign up
-            </Link>
+            {isLogged ? <button onClick={handleSigOut}>Log out</button> : (
+              <>
+                <Link to="/login">
+                  Log in
+                </Link>
+                <Link to="/signup">
+                  Sign up
+                </Link>
+              </>
+            )}
+
           </div>
         </Toolbar>
       </AppBar>

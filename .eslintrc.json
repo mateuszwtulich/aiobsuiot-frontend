@@ -33,7 +33,9 @@
 			"linebreak-style": "off",
 			"react/jsx-props-no-spreading": "off",
 			"react/button-has-type": "off",
-			"no-tabs":"off"
+			"no-tabs":"off",
+			"import/prefer-default-export": "off",
+			"consistent-return": "off"
     },
 		"settings": {
 			"import/resolver": {
