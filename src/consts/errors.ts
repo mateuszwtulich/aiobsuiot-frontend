@@ -11,7 +11,7 @@ export default errors;
 
 export const errorMessages = {
   INVALID_PASSWORDS: 'Passwords are not the same',
-  INVALID_CREDENTIALS: 'Passwords are not the same',
+  INVALID_CREDENTIALS: 'Invalid credentials',
   MISSING_FORM_VALUES: 'Some of the required fields are empty',
   ACCESS_DENIED: 'Access denied',
   INVALID_EMAIL: 'Invalid email',

@@ -9,7 +9,7 @@ export default function Input({
   return (
     <div className="Input">
       <TextField
-        id="outlined-basic"
+        id={`outlined-basic-${label}`}
         label={label}
         variant="outlined"
         type={type}

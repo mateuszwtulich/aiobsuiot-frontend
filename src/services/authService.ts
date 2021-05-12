@@ -1,13 +1,18 @@
 import axios from 'axios';
 import jwt_decode from 'jwt-decode';
 
-import { UNKNOWN_ERROR } from 'consts/errors';
+import { INVALID_CREDENTIALS, UNKNOWN_ERROR } from 'consts/errors';
 import { AuthUserType } from 'contexts/AuthContext';
 
 export async function login({ user }) {
   try {
     const res = await axios.post('api/authenticate', user);
-    const { headers } = res;
+		
+		if (res.status === 403) {
+			throw new Error(UNKNOWN_ERROR);
+    }
+
+		const { headers } = res;
     if (!headers) {
       throw new Error(UNKNOWN_ERROR);
     }
@@ -26,6 +31,31 @@ export async function login({ user }) {
 		const decodedUser = decodeUserFromToken(token)
 
     return { err: null, user: decodedUser};
+  } catch (err) {
+    console.log(err);
+
+		if (err.response && err.response.status === 403) {
+			return { err: INVALID_CREDENTIALS, user: null };
+    }
+
+    return { err: err.message, user: null };
+  }
+}
+
+export async function signup(user) {
+	const {email, password, name, surname} = user
+  try {
+    const res = await axios.post('api/user/v1/user', {  
+		accountTo: {
+			email,
+			password,
+		},
+		name,
+		// roleId: 0,
+		surname,
+	});
+		console.log(res);
+	
   } catch (err) {
     console.log(err);
     return { err: err.message, user: null };

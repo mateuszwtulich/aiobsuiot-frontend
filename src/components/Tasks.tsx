@@ -13,7 +13,8 @@ import CustomModal from './CustomModal';
 import SimpleLoader from './SimpleLoader';
 import ErrorMessage from './ErrorMessage';
 import { useAuth } from 'contexts/AuthContext';
-import { canRemoveTask } from 'permissions';
+import { canAddTask, canGetTasks, canRemoveTask } from 'permissions';
+import AccessDenied from './AccessDenied';
 
 export default function Tasks() {
   const [tasks, setTasks] = useState<TaskModel[]>([]);
@@ -22,7 +23,11 @@ export default function Tasks() {
   const [error, setError] = useState<string | null>(null);
 	const {authUser} = useAuth();
 
+	console.log(authUser);
+	
 	const _canRemoveTask: boolean = canRemoveTask(authUser);
+	const _canGetTasks: boolean = canGetTasks(authUser);
+	const _canAddTask: boolean = canAddTask(authUser);
 
 	useEffect(() => {
     fetch();
@@ -70,19 +75,23 @@ export default function Tasks() {
     <div className="Tasks">
       <Header title="Tasks" />
       <Wrapper className="content">
-        <div className="top">
+			{_canGetTasks ? <>
+				<div className="top">
           <h2>My Tasks</h2>
-          <Button
+         {_canAddTask && <Button
             variant="contained"
             color="primary"
             size="large"
             onClick={() => setTaskModalOpen(true)}
           >
             Add new task
-          </Button>
+          </Button>}
         </div>
         <ErrorMessage error={error} />
-        {loading ? <SimpleLoader /> : diaplayTasks({tasks, onTaskRemove: _canRemoveTask ? handleTaskRemove : null})}
+				{	loading ?	<SimpleLoader /> : diaplayTasks({tasks, onTaskRemove: _canRemoveTask ? handleTaskRemove : null})}
+				</> 	
+				: <AccessDenied />
+			}
       </Wrapper>
       <CustomModal
         isOpen={isTaskModalOpen}

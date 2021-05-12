@@ -6,7 +6,7 @@ const DELETE_TASK = "DELETE_TASK";
 const GET_TASKS = "GET_TASKS";
 
 function hasAuthority(authUser, authority) {
-	return authUser.authorities.find(({authority: _authority})=> _authority = authority);
+	return authUser.authorities.find(({authority: _authority})=> _authority === authority);
 }
 
 export function canRemoveTask(authUser: AuthUserType) {
