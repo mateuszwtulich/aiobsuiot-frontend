@@ -1,7 +1,11 @@
 import axios from 'axios';
+import jwt_decode from 'jwt-decode';
+
 import { UNKNOWN_ERROR } from 'consts/errors';
 
-export async function login({ user, history }) {
+type JwtDecode = {userId: string, authorities }
+
+export async function login({ user }) {
   try {
     const res = await axios.post('api/authenticate', user);
     const { headers } = res;
@@ -19,14 +23,30 @@ export async function login({ user, history }) {
       throw new Error(UNKNOWN_ERROR);
     }
 
-    localStorage.setItem('TOKEN', token);
-    history.push('/tasks');
+		storeToken(token);
+		const decodedUser = decodeUserFromToken(token)
 
-    return { err: null, isLoggedIn: true };
+    return { err: null, user: decodedUser};
   } catch (err) {
     console.log(err);
-    return { err: err.message, isLoggedIn: false };
+    return { err: err.message, user: null };
   }
+}
+
+export function decodeUserFromToken(token: string | null) {
+	if(token === null) {
+		return null;
+	}
+
+	const decoded: JwtDecode = jwt_decode(token);
+	
+	const {userId, authorities} = decoded; 
+
+	return {userId, authorities};
+}
+
+export function storeToken(token: string) {
+	localStorage.setItem('TOKEN', token);
 }
 
 export function getToken() {

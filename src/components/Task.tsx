@@ -14,7 +14,7 @@ import 'styles/Task.scss';
 
 export default function Task({ task, onTaskRemove, onTaskEdit }: {task: TaskType, onTaskRemove?, onTaskEdit?}) {
   const {
-    id, title, user, finalDate, text,
+    id, name, user, finalDate,
   } = task;
 
   return (
@@ -25,25 +25,17 @@ export default function Task({ task, onTaskRemove, onTaskEdit }: {task: TaskType
         />
         <CardContent>
           <Typography
-            className="title"
+            className="name"
             color="textSecondary"
             gutterBottom
           >
-            {title}
+            {name}
           </Typography>
           <Typography
             className="pos"
             color="textSecondary"
           >
             .
-          </Typography>
-          <Typography
-            className="body2"
-            variant="body2"
-            component="p"
-          >
-            <span className="bullet">•</span>
-            {text}
           </Typography>
         </CardContent>
         <CardActions>

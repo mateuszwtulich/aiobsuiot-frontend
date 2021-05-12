@@ -9,12 +9,11 @@ import ErrorMessage from 'components/ErrorMessage';
 import { MISSING_FORM_VALUES } from 'consts/errors';
 
 export default function TaskForm({ task, sumbit }:{task?: Task | null, sumbit}) {
-  const [title, setTitle] = useState<string>(task?.title ?? '');
-  const [text, setText] = useState<string>(task?.text ?? '');
+  const [name, setName] = useState<string>(task?.name ?? '');
   const [finalDate, setFinalDate] = useState<Date>(task?.finalDate ?? new Date());
   const [error, setError] = useState<string | null>(null);
 
-  const isFormValid = () => title.trim().length > 0;
+  const isFormValid = () => name.trim().length > 0;
 
   const handleSave = () => {
     if (!isFormValid()) {
@@ -23,7 +22,7 @@ export default function TaskForm({ task, sumbit }:{task?: Task | null, sumbit}) 
     }
 
     setError(null);
-    const newTask = { title, text, finalDate };
+    const newTask = { name, finalDate };
     sumbit(newTask);
   };
 
@@ -37,17 +36,8 @@ export default function TaskForm({ task, sumbit }:{task?: Task | null, sumbit}) 
         required
         fullWidth
         label="Name"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-      />
-      <TextField
-        id="standard-textarea"
-        label="Description"
-        multiline
-        fullWidth
-        rowsMax={4}
-        value={text}
-        onChange={(e) => setText(e.target.value)}
+        value={name}
+        onChange={(e) => setName(e.target.value)}
       />
       <TextField
         required

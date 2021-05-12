@@ -12,10 +12,12 @@ import Signup from 'components/Signup';
 import Home from 'components/Home';
 import Tasks from 'components/Tasks';
 import PrivateRoute from 'components/PrivateRoute';
+import { AuthProvider } from 'contexts/AuthContext';
 
 function App() {
   return (
     <div className="App">
+			<AuthProvider>
       <Router>
         <Switch>
           <Route path="/signup">
@@ -38,6 +40,7 @@ function App() {
           </Route>
         </Switch>
       </Router>
+			</AuthProvider>
     </div>
   );
 }

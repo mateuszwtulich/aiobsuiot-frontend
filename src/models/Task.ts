@@ -1,7 +1,6 @@
 type Task = {
   id : string,
-  title : string,
-  text ?: string,
+  name : string,
   user : string,
   finalDate : Date,
 }

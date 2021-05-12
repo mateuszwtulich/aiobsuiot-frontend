@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Task from 'models/Task';
 import { getToken } from './authService';
 
 export async function fetchTasks() {
@@ -9,8 +10,6 @@ export async function fetchTasks() {
       url: 'task/v1/tasks',
       headers: { Authorization: `Bearer ${token}` },
     });
-    console.log(res);
-
     if (res.status === 204) {
       return { err: null, tasks: [] };
     }
@@ -21,13 +20,28 @@ export async function fetchTasks() {
   }
 }
 
-export async function addTask(task) {
+export async function addTask({task, userId}: {task: Task, userId: string}) {
   const token = getToken();
+	const {finalDate, name} = task;
+
+	console.log(userId);
+	
+	console.log({
+		finalDate: finalDate.toISOString(),
+		name,
+		userId: userId.toString(),
+	});
+
   try {
     const res = await axios({
       method: 'get',
       url: 'task/v1/task',
       headers: { Authorization: `Bearer ${token}` },
+			data: {
+				finalDate: finalDate.toISOString(),
+				name,
+				userId: userId.toString(),
+			}
     });
     console.log(res);
     return { err: null, tasks: [] };

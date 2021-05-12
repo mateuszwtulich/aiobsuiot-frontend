@@ -10,12 +10,14 @@ import { MISSING_FORM_VALUES } from 'consts/errors';
 import { login } from 'services/authService';
 import ErrorMessage from './ErrorMessage';
 import SimpleLoader from './SimpleLoader';
+import { useAuth } from 'contexts/AuthContext';
 
 export default function Login() {
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setLoading] = useState<boolean>(false);
+	const {setAuthUser} = useAuth();
 
   const history = useHistory();
 
@@ -34,11 +36,13 @@ export default function Login() {
     setLoading(true);
 
     if (isValid()) {
-      const { err } = await login({ user: { username, password }, history });
-
+      const { err, user } = await login({ user: { username, password } });
       if (err) {
         setError(err);
-      }
+      } else {
+				setAuthUser(user);
+				history.push('/tasks');
+			}
     }
 
     setLoading(false);
