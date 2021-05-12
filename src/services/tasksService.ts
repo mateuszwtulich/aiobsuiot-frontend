@@ -25,11 +25,12 @@ export async function addTask({task, userId}: {task: Task, userId: string}) {
 	const {finalDate, name} = task;
 
 	console.log(userId);
+	console.log(token);
 	
 	console.log({
 		finalDate: finalDate.toISOString(),
 		name,
-		userId: userId.toString(),
+		userId: userId,
 	});
 
   try {
@@ -40,7 +41,7 @@ export async function addTask({task, userId}: {task: Task, userId: string}) {
 			data: {
 				finalDate: finalDate.toISOString(),
 				name,
-				userId: userId.toString(),
+				userId: userId,
 			}
     });
     console.log(res);

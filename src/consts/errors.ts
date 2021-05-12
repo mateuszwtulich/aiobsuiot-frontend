@@ -5,6 +5,10 @@ export const ACCESS_DENIED = 'ACCESS_DENIED';
 export const INVALID_EMAIL = 'INVALID_EMAIL';
 export const UNKNOWN_ERROR = 'UNKNOWN_ERROR';
 
+const errors = {INVALID_PASSWORDS, INVALID_CREDENTIALS, MISSING_FORM_VALUES, ACCESS_DENIED,}
+
+export default errors;
+
 export const errorMessages = {
   INVALID_PASSWORDS: 'Passwords are not the same',
   INVALID_CREDENTIALS: 'Passwords are not the same',
@@ -14,6 +18,4 @@ export const errorMessages = {
   UNKNOWN_ERROR: 'Unknown error',
 };
 
-export default {
-  INVALID_PASSWORDS, INVALID_CREDENTIALS, MISSING_FORM_VALUES, ACCESS_DENIED,
-};
+

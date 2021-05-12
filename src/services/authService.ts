@@ -2,8 +2,7 @@ import axios from 'axios';
 import jwt_decode from 'jwt-decode';
 
 import { UNKNOWN_ERROR } from 'consts/errors';
-
-type JwtDecode = {userId: string, authorities }
+import { AuthUserType } from 'contexts/AuthContext';
 
 export async function login({ user }) {
   try {
@@ -38,7 +37,7 @@ export function decodeUserFromToken(token: string | null) {
 		return null;
 	}
 
-	const decoded: JwtDecode = jwt_decode(token);
+	const decoded: AuthUserType = jwt_decode(token);
 	
 	const {userId, authorities} = decoded; 
 

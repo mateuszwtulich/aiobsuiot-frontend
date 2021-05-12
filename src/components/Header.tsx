@@ -32,11 +32,8 @@ export default function Header({ title }: { title: string}) {
         }}
         >
           <div className="logo">
-            <IconButton>
-              <MenuIcon
-                onClick={toggleDrawer}
-                style={{ color: '#fff' }}
-              />
+            <IconButton onClick={toggleDrawer}>
+              <MenuIcon style={{ color: '#fff' }}/>
             </IconButton>
             <h1>{title}</h1>
           </div>
