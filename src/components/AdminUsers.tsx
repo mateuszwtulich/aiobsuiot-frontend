@@ -5,13 +5,12 @@ import '../styles/AdminUsers.scss';
 import User from 'components/User';
 import Header from 'components/Header';
 import Wrapper from 'components/Wrapper';
-import roles from 'consts/roles';
 import UserModel from 'models/User';
 import CustomModal from './CustomModal';
 import UserForm from './UserForm';
 import { fetchUsers, addUser, removeUser} from 'services/userService'
-
-const { USER_ROLE, MANAGER_ROLE, ADMIN_ROLE } = roles;
+import SimpleLoader from './SimpleLoader';
+import ErrorMessage from './ErrorMessage';
 
 export default function AdminUsers() {
   const [users, setUsers] = useState<UserModel[]>([]);
@@ -19,6 +18,7 @@ export default function AdminUsers() {
   const [loading, setLoading] = useState<boolean>(true);
   const [isUserkModalOpen, setUserModalOpen] = useState<boolean>(false);
   const [edittingUser, setEdittingUser] = useState<UserModel | null>(null);
+	
 
 	useEffect(() => {
     fetch();
@@ -82,14 +82,8 @@ export default function AdminUsers() {
             Add new user
           </Button>
         </div>
-        {users.map(((user) => (
-          <User
-            key={user.id}
-            user={user}
-            onUserRemove={handleUserRemove}
-            onUserEdit={handleUserEdit}
-          />
-        )))}
+				<ErrorMessage error={error} />
+				{	loading ?	<SimpleLoader /> : diaplayUsers({users, onUserRemove: handleUserRemove, onUserEdit: handleUserEdit})}
         <CustomModal
           isOpen={isUserkModalOpen}
           closeModal={closeModal}
@@ -103,3 +97,13 @@ export default function AdminUsers() {
     </div>
   );
 }
+
+const diaplayUsers = ({users, onUserRemove, onUserEdit}) => (users.length < 1 ? <p>There is no users</p> : users.map(((user) => (
+	<User
+		key={user.id}
+		user={user}
+		onUserRemove={onUserRemove}
+		onUserEdit={onUserEdit}
+	/>
+))));
+

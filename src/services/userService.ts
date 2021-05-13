@@ -24,7 +24,7 @@ export async function fetchUsers() {
 }
 
 export async function addUser(user) {
-  const {email, password, repeatedPassword, name, surname, role} = user
+  const {email, password, name, surname, role} = user
   const token = getToken();
   try {
     const res = await axios({

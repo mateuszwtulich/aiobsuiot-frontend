@@ -45,15 +45,11 @@ export async function login({ user }) {
 export async function signup(user) {
 	const {email, password, name, surname} = user
   try {
-    const res = await axios.post('api/user/v1/user', {  
-		accountTo: {
+    const res = await axios.post('api/user/v1/user/signup', {  
 			email,
 			password,
 		},
-		name,
-		// roleId: 0,
-		surname,
-	});
+	);
 		console.log(res);
 	
   } catch (err) {

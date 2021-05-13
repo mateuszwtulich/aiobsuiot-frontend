@@ -30,7 +30,6 @@ function App() {
           <PrivateRoute
             component={AdminPage}
             path="/admin"
-            onlyAdminAccess
           />
           <Route path="/login">
             <Login />

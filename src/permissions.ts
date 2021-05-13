@@ -10,7 +10,7 @@ const DELETE_USER = "DELETE_USER";
 const GET_USERS = "GET_USERS";
 
 function hasAuthority(authUser, authority) {
-	return authUser.authorities.find(({authority: _authority})=> _authority === authority);
+	return authUser ? authUser.authorities.find(({authority: _authority})=> _authority === authority) : false;
 }
 
 export function canRemoveTask(authUser: AuthUserType) {
