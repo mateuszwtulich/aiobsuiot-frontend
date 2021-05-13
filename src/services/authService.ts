@@ -84,5 +84,5 @@ export function isLoggedIn() {
 
 export function signOut(history) {
   localStorage.removeItem('TOKEN');
-  history.push('/login');
+  history.push('/');
 }

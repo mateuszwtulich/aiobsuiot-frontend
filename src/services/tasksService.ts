@@ -8,7 +8,27 @@ export async function fetchTasks() {
   try {
     const res = await axios({
       method: 'get',
-      url: 'task/v1/tasks',
+      url: '/task/v1/tasks',
+      headers: { Authorization: `Bearer ${token}` },
+    });
+		
+    if (res.status === 204) {
+      return { err: null, tasks: [] };
+    }
+		
+    return { err: null, tasks: res.data };
+  } catch (err) {
+    console.log(err);
+    return { err, tasks: [] };
+  }
+}
+
+export async function fetchUserTasks(userId) {
+  const token = getToken();
+  try {
+    const res = await axios({
+      method: 'get',
+      url: `task/v1/tasks/user/${userId}`,
       headers: { Authorization: `Bearer ${token}` },
     });
     if (res.status === 204) {
