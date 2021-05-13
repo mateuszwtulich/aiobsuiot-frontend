@@ -1,4 +1,5 @@
 import RoleEto from 'models/RoleEto';
+import AccountEto from 'models/AccountEto';
 
 type User = {
 	id: string,
@@ -8,7 +9,8 @@ type User = {
 	name: string,
 	surname: string,
 	role: string
-	roleEto?: RoleEto
+	roleEto?: RoleEto,
+	accountEto?: AccountEto,
 }
 
 export default User;

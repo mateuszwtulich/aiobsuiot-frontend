@@ -13,7 +13,7 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 
 export default function UserForm({ user, sumbit }:{user: User | null, sumbit}) {
-  const [email, setEmail] = useState<string>(user?.email ?? '');
+  const [email, setEmail] = useState<string>(user?.accountEto?.email ?? '');
   const [password, setPassword] = useState<string>('');
   const [repeatedPassword, setRepeatedPassword] = useState<string>('');
   const [name, setName] = useState<string>(user?.name ?? '');
