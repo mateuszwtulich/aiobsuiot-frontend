@@ -7,11 +7,16 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import GroupIcon from '@material-ui/icons/Group';
 import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
-
 import 'styles/DrawerContent.scss';
 import { Link } from 'react-router-dom';
+import { useAuth } from 'contexts/AuthContext';
+import { canGetUsers,} from 'permissions';
+
 
 export default function DrawerContent() {
+  const {authUser} = useAuth();
+  const _canGetUsers: boolean = canGetUsers(authUser);
+
   return (
     <div className="DrawerContent">
       <h2>Menu</h2>
@@ -24,6 +29,7 @@ export default function DrawerContent() {
             <ListItemText primary="My tasks" />
           </Link>
         </ListItem>
+        {_canGetUsers ? < >
         <ListItem button>
           <Link to="/admin/tasks">
             <ListItemIcon>
@@ -40,6 +46,8 @@ export default function DrawerContent() {
             <ListItemText primary="Admin users" />
           </Link>
         </ListItem>
+        </>
+        : <></>}
       </List>
       <Divider />
       <ListItem button>
