@@ -7,7 +7,7 @@ import Task from 'components/Task';
 import TaskModel from 'models/Task';
 
 import 'styles/Tasks.scss';
-import { addTask, fetchTasks, removeTask } from 'services/tasksService';
+import { addTask, fetchUserTasks, removeTask } from 'services/tasksService';
 import TaskForm from './TaskForm';
 import CustomModal from './CustomModal';
 import SimpleLoader from './SimpleLoader';
@@ -22,8 +22,6 @@ export default function Tasks() {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 	const {authUser} = useAuth();
-
-	console.log(authUser);
 	
 	const _canRemoveTask: boolean = canRemoveTask(authUser);
 	const _canGetTasks: boolean = canGetTasks(authUser);
@@ -34,7 +32,7 @@ export default function Tasks() {
   }, []);
 
 	const fetch = async () => {
-		const { err, tasks: fetchedTasks } = await fetchTasks();
+		const { err, tasks: fetchedTasks } = await fetchUserTasks(authUser.userId);
 		
 		if (err) {
 			setError(err);
