@@ -8,9 +8,12 @@ import Wrapper from 'components/Wrapper';
 import UserModel from 'models/User';
 import CustomModal from './CustomModal';
 import UserForm from './UserForm';
-import { fetchUsers, addUser, removeUser} from 'services/userService'
 import SimpleLoader from './SimpleLoader';
+import { fetchUsers, addUser, removeUser} from 'services/userService'
 import ErrorMessage from './ErrorMessage';
+import { useAuth } from 'contexts/AuthContext';
+import { canAddUser, canGetUsers, canRemoveUser, canEditUser } from 'permissions';
+import AccessDenied from './AccessDenied';
 
 export default function AdminUsers() {
   const [users, setUsers] = useState<UserModel[]>([]);
@@ -18,6 +21,13 @@ export default function AdminUsers() {
   const [loading, setLoading] = useState<boolean>(true);
   const [isUserkModalOpen, setUserModalOpen] = useState<boolean>(false);
   const [edittingUser, setEdittingUser] = useState<UserModel | null>(null);
+
+  const {authUser} = useAuth();
+
+	const _canGetUsers: boolean = canGetUsers(authUser);
+	const _canAddUser: boolean = canAddUser(authUser);
+	const _canEditUser: boolean = canEditUser(authUser);
+	const _canRemoveUser: boolean = canRemoveUser(authUser);
 	
 
 	useEffect(() => {
@@ -72,19 +82,23 @@ export default function AdminUsers() {
     <div className="AdminUsers">
       <Header title="Admin users" />
       <Wrapper className="content small-padding">
+			{_canGetUsers ? <>
         <div className="top">
           <h2>Manage users</h2>
-          <Button
+          {_canAddUser &&<Button
             variant="contained"
             color="primary"
             onClick={() => setUserModalOpen(true)}
           >
             Add new user
-          </Button>
+          </Button>}
         </div>
 				<ErrorMessage error={error} />
-				{	loading ?	<SimpleLoader /> : diaplayUsers({users, onUserRemove: handleUserRemove, onUserEdit: handleUserEdit})}
-        <CustomModal
+        {	loading ?	<SimpleLoader /> : diaplayUsers({users, onUserRemove: _canRemoveUser ? handleUserRemove : null, onUserEdit: _canEditUser ? handleUserEdit : null})}
+				</> 	
+				: <AccessDenied />
+				}
+				<CustomModal
           isOpen={isUserkModalOpen}
           closeModal={closeModal}
         >
@@ -99,11 +113,10 @@ export default function AdminUsers() {
 }
 
 const diaplayUsers = ({users, onUserRemove, onUserEdit}) => (users.length < 1 ? <p>There is no users</p> : users.map(((user) => (
-	<User
-		key={user.id}
-		user={user}
-		onUserRemove={onUserRemove}
-		onUserEdit={onUserEdit}
-	/>
+  <User
+  key={user.id}
+  user={user}
+  onUserRemove={onUserRemove}
+  onUserEdit={onUserEdit}
+  />
 ))));
-
