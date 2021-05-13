@@ -33,7 +33,7 @@ export default function DrawerContent() {
           </Link>
         </ListItem>
 				}
-				{_canGetTasks &&
+				{_canGetUsers &&
         <ListItem button>
           <Link to="/admin/tasks">
             <ListItemIcon>
