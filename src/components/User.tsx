@@ -32,17 +32,20 @@ export default function User({ user, onUserRemove, onUserEdit }) {
           </Typography>
         </CardContent>
         <div className="butttons">
+        {!!onUserRemove && (
           <button
             onClick={() => onUserRemove(id)}
           >
             <DeleteForeverIcon color="error" />
           </button>
+          )}
+          {!!onUserEdit && (
           <button
             onClick={() => onUserEdit(id)}
           >
             <EditIcon />
           </button>
-
+          )}
         </div>
       </Card>
     </div>
