@@ -1,5 +1,5 @@
 import React, { Fragment, useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
@@ -17,10 +17,9 @@ export default function Header({ title }: { title: string}) {
   };
 
   const isLogged = isLoggedIn();
-  const history = useHistory();
 
   const handleSigOut = () => {
-    signOut(history);
+    signOut();
   };
 
   return (

@@ -82,7 +82,7 @@ export function isLoggedIn() {
   return !!getToken();
 }
 
-export function signOut(history) {
+export function signOut() {
   localStorage.removeItem('TOKEN');
-  history.push('/');
+  window.location.reload();
 }

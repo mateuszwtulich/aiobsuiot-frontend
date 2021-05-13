@@ -28,7 +28,7 @@ export async function fetchUserTasks(userId) {
   try {
     const res = await axios({
       method: 'get',
-      url: `task/v1/tasks/user/${userId}`,
+      url: `/task/v1/tasks/user/${userId}`,
       headers: { Authorization: `Bearer ${token}` },
     });
     if (res.status === 204) {
@@ -49,7 +49,7 @@ export async function addTask({task, userId}: {task: Task, userId: string}) {
   try {
     const res = await axios({
       method: 'post',
-      url: 'task/v1/task',
+      url: '/task/v1/task',
       headers: { Authorization: `Bearer ${token}` },
 			data: {
 				finalDate: formatDate(finalDate),
@@ -70,7 +70,7 @@ export async function removeTask(taskId: string) {
   try {
     const res = await axios({
       method: 'delete',
-      url: `task/v1/task/${taskId}`,
+      url: `/task/v1/task/${taskId}`,
       headers: { Authorization: `Bearer ${token}` },
     });
     console.log(res);
