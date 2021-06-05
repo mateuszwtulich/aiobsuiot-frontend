@@ -1,0 +1,47 @@
+.Role {
+  position: relative;
+  margin-bottom: 20px;
+  padding: 10px;
+
+  input {
+    min-width: 300px;
+  }
+  .MuiCardHeader-root,
+  .MuiCardContent-root {
+    padding-bottom: 0 !important;
+  }
+  .bullet {
+    display: "inline-block";
+    margin: "0 2px";
+    transform: "scale(0.8)";
+  }
+  .name {
+    font-size: 2em;
+    text-align: left;
+  }
+  .body2 {
+    text-align: left;
+  }
+  .pos {
+    margin-bottom: 5px;
+  }
+  .MuiCardHeader-title {
+    text-align: left;
+  }
+  .MuiCardHeader-subheader {
+    font-size: 0.75rem;
+    text-align: left !important;
+  }
+
+  .butttons {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+
+    button {
+      cursor: pointer;
+      background: transparent;
+      border: none;
+    }
+  }
+}

@@ -1,16 +1,24 @@
-import React, { useState } from 'react';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
+import React, { useState } from "react";
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
 
-import 'styles/TaskForm.scss';
-import Task from 'models/Task';
-import formatDate from 'utils/formatDate';
-import ErrorMessage from 'components/ErrorMessage';
-import { MISSING_FORM_VALUES } from 'consts/errors';
+import "styles/TaskForm.scss";
+import Task from "models/Task";
+import formatDate from "utils/formatDate";
+import ErrorMessage from "components/ErrorMessage";
+import { MISSING_FORM_VALUES } from "consts/errors";
 
-export default function TaskForm({ task, sumbit }:{task?: Task | null, sumbit}) {
-  const [name, setName] = useState<string>(task?.name ?? '');
-  const [finalDate, setFinalDate] = useState<Date>(task?.finalDate ?? new Date());
+export default function TaskForm({
+  task,
+  submit,
+}: {
+  task?: Task | null;
+  submit;
+}) {
+  const [name, setName] = useState<string>(task?.name ?? "");
+  const [finalDate, setFinalDate] = useState<Date>(
+    task?.finalDate ?? new Date()
+  );
   const [error, setError] = useState<string | null>(null);
 
   const isFormValid = () => name.trim().length > 0;
@@ -23,15 +31,12 @@ export default function TaskForm({ task, sumbit }:{task?: Task | null, sumbit}) 
 
     setError(null);
     const newTask = { name, finalDate };
-    sumbit(newTask);
+    submit(newTask);
   };
 
   return (
-    <form
-      className="TaskForm"
-      onSubmit={handleSave}
-    >
-      <h2>{task ? 'Edit task' : 'Add new task'}</h2>
+    <form className="TaskForm" onSubmit={handleSave}>
+      <h2>{task ? "Edit task" : "Add new task"}</h2>
       <TextField
         required
         fullWidth

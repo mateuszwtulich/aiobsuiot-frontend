@@ -7,10 +7,9 @@ export async function fetchUsers() {
   try {
     const res = await axios({
       method: 'get',
-      url: 'http://localhost:8090/user/v1/users',
+      url: '/user/v1/users',
       headers: { Authorization: `Bearer ${token}` },
     });
-    console.log(res);
 
     if (res.status === 204) {
       return { err: null, users: [] };
@@ -28,7 +27,7 @@ export async function fetchUser(userId: string) {
   try {
     const res = await axios({
       method: 'get',
-      url: `http://localhost:8090/user/v1/users/${userId}`,
+      url: `/user/v1/users/${userId}`,
       headers: { Authorization: `Bearer ${token}` },
     });
 
@@ -48,10 +47,9 @@ export async function fetchUserRoles(userId: string) {
   try {
     const res = await axios({
       method: 'get',
-      url: `http://localhost:8090/user/v1/users/role/${userId}`,
+      url: `/user/v1/users/role/${userId}`,
       headers: { Authorization: `Bearer ${token}` },
     });
-    console.log(res);
 
     if (res.status === 204) {
       return { err: null, users: [] };
@@ -70,7 +68,7 @@ export async function addUser(user: User) {
   try {
     const res = await axios({
       method: 'post',
-      url: 'http://localhost:8090/user/v1/user',
+      url: '/user/v1/user',
       headers: { Authorization: `Bearer ${token}` },
       data: {
 				accountTo: {
@@ -95,7 +93,7 @@ export async function editUser(user: User) {
   try {
     const res = await axios({
       method: 'put',
-      url: `http://localhost:8090/user/v1/user/${user.id}`,
+      url: `/user/v1/user/${user.id}`,
       headers: { Authorization: `Bearer ${token}` },
       data: {
 				accountTo: {
@@ -117,12 +115,12 @@ export async function editUser(user: User) {
 export async function removeUser(userId: string) {
   const token = getToken();
   try {
-    const res = await axios({
+    await axios({
       method: 'delete',
-      url: `http://localhost:8090/user/v1/user/${userId}`,
+      url: `/user/v1/user/${userId}`,
       headers: { Authorization: `Bearer ${token}` },
     });
-    console.log(res);
+
 		return { err: null }
   } catch (err) {
     console.log(err);

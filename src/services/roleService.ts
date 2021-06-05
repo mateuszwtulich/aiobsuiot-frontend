@@ -12,10 +12,10 @@ export async function fetchPermissions() {
     });
 		
     if (res.status === 204) {
-      return { err: null, roles: [] };
+      return { err: null, permissions: [] };
     }
 		
-    return { err: null, roles: res.data };
+    return { err: null, permissions: res.data };
   } catch (err) {
     console.log(err);
     return { err, roles: [] };
@@ -101,12 +101,11 @@ export async function editRole(role: RoleEto) {
 export async function removeRole(roleId: string) {
   const token = getToken();
   try {
-    const res = await axios({
+    await axios({
       method: 'delete',
       url: `/user/v1/role/${roleId}`,
       headers: { Authorization: `Bearer ${token}` },
     });
-    console.log(res);
 		return { err: null }
   } catch (err) {
     console.log(err);

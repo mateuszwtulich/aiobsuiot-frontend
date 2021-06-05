@@ -111,12 +111,11 @@ export async function editTask({task, userId}: {task: Task, userId: string}) {
 export async function removeTask(taskId: string) {
   const token = getToken();
   try {
-    const res = await axios({
+    await axios({
       method: 'delete',
       url: `/task/v1/task/${taskId}`,
       headers: { Authorization: `Bearer ${token}` },
     });
-    console.log(res);
 		return { err: null }
   } catch (err) {
     console.log(err);

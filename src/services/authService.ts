@@ -43,14 +43,13 @@ export async function login({ user }) {
 }
 
 export async function signup(user) {
-	const {email, password, name, surname} = user
+	const {email, password} = user
   try {
-    const res = await axios.post('api/user/v1/user/signup', {  
+    await axios.post('api/user/v1/user/signup', {  
 			email,
 			password,
 		},
 	);
-		console.log(res);
 	
   } catch (err) {
     console.log(err);

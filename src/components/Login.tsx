@@ -41,7 +41,6 @@ export default function Login() {
         setError(err);
       } else {
 				setAuthUser(user);
-				history.push('/tasks');
 			}
     }
 

@@ -1,0 +1,36 @@
+.RoleForm {
+  color: #000;
+
+  & > * {
+    margin: 10px 20px !important;
+  }
+
+  .permissions {
+    max-height: 350px;
+    overflow-y: auto;
+
+    .permission {
+      display: flex;
+      justify-content: space-between;
+
+      .name {
+        margin-top: 25px;
+      }
+
+      button {
+        border: none;
+        background-color: transparent;
+      }
+    }
+  }
+
+  .new-permission-select {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .MuiFormControl-root {
+      min-width: 250px;
+    }
+  }
+}
