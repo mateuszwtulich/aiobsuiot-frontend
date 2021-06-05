@@ -1,18 +1,18 @@
-import axios from 'axios';
-import jwt_decode from 'jwt-decode';
+import axios from "axios";
+import jwt_decode from "jwt-decode";
 
-import { INVALID_CREDENTIALS, UNKNOWN_ERROR } from 'consts/errors';
-import { AuthUserType } from 'contexts/AuthContext';
+import { INVALID_CREDENTIALS, UNKNOWN_ERROR } from "consts/errors";
+import { AuthUserType } from "contexts/AuthContext";
 
 export async function login({ user }) {
   try {
-    const res = await axios.post('api/authenticate', user);
-		
-		if (res.status === 403) {
-			throw new Error(UNKNOWN_ERROR);
+    const res = await axios.post("api/authenticate", user);
+
+    if (res.status === 403) {
+      throw new Error(UNKNOWN_ERROR);
     }
 
-		const { headers } = res;
+    const { headers } = res;
     if (!headers) {
       throw new Error(UNKNOWN_ERROR);
     }
@@ -22,20 +22,20 @@ export async function login({ user }) {
       throw new Error(UNKNOWN_ERROR);
     }
 
-    const token = authorization.split(' ')[1];
+    const token = authorization.split(" ")[1];
     if (!token) {
       throw new Error(UNKNOWN_ERROR);
     }
 
-		storeToken(token);
-		const decodedUser = decodeUserFromToken(token)
+    storeToken(token);
+    const decodedUser = decodeUserFromToken(token);
 
-    return { err: null, user: decodedUser};
+    return { err: null, user: decodedUser };
   } catch (err) {
     console.log(err);
 
-		if (err.response && err.response.status === 403) {
-			return { err: INVALID_CREDENTIALS, user: null };
+    if (err.response && err.response.status === 403) {
+      return { err: INVALID_CREDENTIALS, user: null };
     }
 
     return { err: err.message, user: null };
@@ -43,14 +43,14 @@ export async function login({ user }) {
 }
 
 export async function signup(user) {
-	const {email, password} = user
+  const { email, name, surname, password } = user;
   try {
-    await axios.post('api/user/v1/user/signup', {  
-			email,
-			password,
-		},
-	);
-	
+    await axios.post("api/user/v1/user/signup", {
+      email,
+      name,
+      surname,
+      password,
+    });
   } catch (err) {
     console.log(err);
     return { err: err.message, user: null };
@@ -58,23 +58,23 @@ export async function signup(user) {
 }
 
 export function decodeUserFromToken(token: string | null) {
-	if(token === null) {
-		return null;
-	}
+  if (token === null) {
+    return null;
+  }
 
-	const decoded: AuthUserType = jwt_decode(token);
-	
-	const {userId, authorities} = decoded; 
+  const decoded: AuthUserType = jwt_decode(token);
 
-	return {userId, authorities};
+  const { userId, authorities } = decoded;
+
+  return { userId, authorities };
 }
 
 export function storeToken(token: string) {
-	localStorage.setItem('TOKEN', token);
+  localStorage.setItem("TOKEN", token);
 }
 
 export function getToken() {
-  return localStorage.getItem('TOKEN');
+  return localStorage.getItem("TOKEN");
 }
 
 export function isLoggedIn() {
@@ -82,6 +82,6 @@ export function isLoggedIn() {
 }
 
 export function signOut() {
-  localStorage.removeItem('TOKEN');
+  localStorage.removeItem("TOKEN");
   window.location.reload();
 }
