@@ -2,16 +2,17 @@ import React, { useState } from "react";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Delete from "@material-ui/icons/Delete";
-
-import "styles/RoleForm.scss";
-import Role from "models/RoleEto";
-import ErrorMessage from "components/ErrorMessage";
 import Permission from "models/Permission";
-import { MISSING_FORM_VALUES, NO_PERMISSION_SELECTED } from "consts/errors";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
+
+import "styles/RoleForm.scss";
+import ErrorMessage from "components/ErrorMessage";
+import Role from "models/RoleEto";
+
+import { MISSING_FORM_VALUES, NO_PERMISSION_SELECTED } from "consts/errors";
 
 export default function RoleForm({
   role,

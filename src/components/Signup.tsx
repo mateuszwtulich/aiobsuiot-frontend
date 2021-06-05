@@ -3,20 +3,20 @@ import Button from "@material-ui/core/Button";
 import { Link } from "react-router-dom";
 
 import "styles/Signup.scss";
-
 import Header from "components/Header";
 import Input from "components/Input";
 import Wrapper from "components/Wrapper";
+import ErrorMessage from "./ErrorMessage";
+import validateEmail from "../utils/validateEmail";
+import hasPasswordValidFormat from "../utils/hasPasswordValidFormat";
+import { signup } from "services/authService";
+
 import {
   INVALID_EMAIL,
   INVALID_PASSWORDS,
   MISSING_FORM_VALUES,
   INVALID_PASSWORD_FORMAT,
 } from "consts/errors";
-import ErrorMessage from "./ErrorMessage";
-import validateEmail from "../utils/validateEmail";
-import hasPasswordValidFormat from "../utils/hasPasswordValidFormat";
-import { signup } from "services/authService";
 
 export default function Signup() {
   const [email, setEmail] = useState<string>("");
@@ -59,7 +59,7 @@ export default function Signup() {
   const handleSignup = async () => {
     if (isValid()) {
       setError(null);
-      // await signup({ email, password, name, surname });
+      await signup({ email, password, name, surname });
     }
   };
 

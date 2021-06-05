@@ -29,7 +29,7 @@ import RoleForm from "./RoleForm";
 
 export default function AdminRoles() {
   const [permissions, setPermissions] = useState<Permission[]>([]);
-  const [roles, setRoles] = useState<boolean>(false);
+  const [roles, setRoles] = useState<RoleModel[]>([]);
   const [edittingRole, setEdittingRole] = useState<RoleModel | null>(null);
   const [isRoleModalOpen, setRoleModalOpen] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);

@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import List from "@material-ui/core/List";
 import Divider from "@material-ui/core/Divider";
 import ListItem from "@material-ui/core/ListItem";
@@ -11,7 +12,6 @@ import VpnKeyIcon from "@material-ui/icons/VpnKey";
 import LockOpenIcon from "@material-ui/icons/LockOpen";
 import AssignmentTurnedInIcon from "@material-ui/icons/AssignmentTurnedIn";
 import "styles/DrawerContent.scss";
-import { Link } from "react-router-dom";
 import { useAuth } from "contexts/AuthContext";
 import {
   canEditTask,
