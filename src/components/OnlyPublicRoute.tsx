@@ -2,8 +2,11 @@ import React from "react";
 import { Route, Redirect } from "react-router-dom";
 import { isLoggedIn } from "services/authService";
 
-export default function PrivateRoute({ component: Component, ...restProps }) {
-  const hasAccess = isLoggedIn();
+export default function OnlyPublicRoute({
+  component: Component,
+  ...restProps
+}) {
+  const hasAccess = !isLoggedIn();
   return (
     <Route
       {...restProps}
@@ -11,7 +14,7 @@ export default function PrivateRoute({ component: Component, ...restProps }) {
         hasAccess ? (
           <Component props={props} />
         ) : (
-          <Redirect to={{ pathname: "/login" }} />
+          <Redirect to={{ pathname: "/tasks" }} />
         )
       }
     />

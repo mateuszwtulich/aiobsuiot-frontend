@@ -9,6 +9,7 @@ import Home from "components/Home";
 import Tasks from "components/Tasks";
 import PrivateRoute from "components/PrivateRoute";
 import { AuthProvider } from "contexts/AuthContext";
+import OnlyPublicRoute from "components/OnlyPublicRoute";
 
 function App() {
   return (
@@ -16,16 +17,10 @@ function App() {
       <AuthProvider>
         <Router>
           <Switch>
-            <Route path="/signup">
-              <Signup />
-            </Route>
-
-            <PrivateRoute component={Tasks} path="/tasks" />
-            <PrivateRoute component={AdminPage} path="/admin" />
-
-            <Route path="/login">
-              <Login />
-            </Route>
+            <PrivateRoute component={Tasks} exact path="/tasks" />
+            <PrivateRoute component={AdminPage} exact path="/admin" />
+            <OnlyPublicRoute component={Login} exact path="/login" />
+            <OnlyPublicRoute component={Signup} exact path="/signup" />
             <Route path="/">
               <Home />
             </Route>
