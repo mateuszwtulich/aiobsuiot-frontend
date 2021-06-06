@@ -74,7 +74,13 @@ export function storeToken(token: string) {
 }
 
 export function getToken() {
-  return localStorage.getItem("TOKEN");
+  const token = localStorage.getItem("TOKEN");
+
+  if (token === null || (jwt_decode(token) as any).exp < Date.now() / 1000) {
+    localStorage.clear();
+    return null;
+  }
+  return token;
 }
 
 export function isLoggedIn() {

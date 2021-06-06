@@ -12,7 +12,11 @@ import "styles/RoleForm.scss";
 import ErrorMessage from "components/ErrorMessage";
 import Role from "models/RoleEto";
 
-import { MISSING_FORM_VALUES, NO_PERMISSION_SELECTED } from "consts/errors";
+import {
+  MISSING_FORM_VALUES,
+  NO_PERMISSION_SELECTED,
+  MISSING_ROLE_PERMISSIONS,
+} from "consts/errors";
 
 export default function RoleForm({
   role,
@@ -35,27 +39,35 @@ export default function RoleForm({
   );
   const [error, setError] = useState<string | null>(null);
 
-  const isFormValid = () =>
-    name.trim().length > 0 && description.trim().length > 0;
-
-  const handleSave = () => {
-    if (!isFormValid()) {
+  const isFormValid = () => {
+    if (name.trim().length < 1 && description.trim().length < 1) {
       setError(MISSING_FORM_VALUES);
-      return;
+      return false;
+    }
+
+    if (rolePermissions.length < 1) {
+      setError(MISSING_ROLE_PERMISSIONS);
+      return false;
     }
 
     setError(null);
-    const newRole = {
-      ...role,
-      name,
-      description,
-      permissionEtoList: rolePermissions,
-    };
-
-    submit(newRole);
+    return true;
   };
 
-  const handleRolePermission = (id: string) => {
+  const handleSave = async () => {
+    if (isFormValid()) {
+      const newRole = {
+        ...role,
+        name,
+        description,
+        permissionIds: rolePermissions.map(({ id }) => id),
+      };
+
+      await submit(newRole);
+    }
+  };
+
+  const handleRemoveRolePermission = (id: string) => {
     setRolePermissions(
       rolePermissions.filter((permission) => permission.id !== id)
     );
@@ -87,7 +99,12 @@ export default function RoleForm({
               <h3 className="name">{name}</h3>
               <h6 className="description">{description}</h6>
             </div>
-            <button onClick={() => handleRolePermission(id)}>
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                handleRemoveRolePermission(id);
+              }}
+            >
               <Delete color="error" />
             </button>
           </div>
@@ -139,7 +156,9 @@ export default function RoleForm({
             Add +
           </Button>
         </div>
-      ) : (
+      ) : availablePermissions.filter(
+          (p) => !rolePermissions.some(({ id }) => id === p.id)
+        ).length > 0 ? (
         <Button
           variant="contained"
           color="primary"
@@ -148,7 +167,7 @@ export default function RoleForm({
         >
           Add new permission
         </Button>
-      )}
+      ) : null}
 
       <ErrorMessage error={error} />
       <div className="buttons">

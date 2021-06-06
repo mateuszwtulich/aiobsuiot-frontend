@@ -63,7 +63,6 @@ export default function AdminRoles() {
     const { err } = await addRole(newRole);
 
     await handleErrorAndRefesh(err);
-    closeModal();
   };
 
   const handleRemoveRole = async (roleId: string) => {
@@ -98,12 +97,14 @@ export default function AdminRoles() {
     setRoleModalOpen(false);
   };
 
-  const handleSubmit = (role) => {
+  const handleSubmit = async (role) => {
     if (edittingRole) {
       handleEditRole(role);
     } else {
       handleAddRole(role);
     }
+
+    closeModal();
   };
 
   return (
