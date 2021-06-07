@@ -1,6 +1,5 @@
 import axios from "axios";
 import Task from "models/Task";
-import formatDate from "utils/formatDate";
 import { getToken } from "./authService";
 
 export async function fetchTasks() {
@@ -75,7 +74,7 @@ export async function addTask({
       url: "/task/v1/task",
       headers: { Authorization: `Bearer ${token}` },
       data: {
-        finalDate: formatDate(finalDate),
+        finalDate: finalDate,
         name,
         userId: userId,
       },
@@ -103,7 +102,7 @@ export async function editTask({
       url: `/task/v1/task/${task.id}`,
       headers: { Authorization: `Bearer ${token}` },
       data: {
-        finalDate: formatDate(finalDate),
+        finalDate: finalDate,
         name,
         userId: userId,
       },

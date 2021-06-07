@@ -12,7 +12,7 @@ import TaskModel from 'models/Task';
 
 import 'styles/Task.scss';
 
-export default function Task({ task, onTaskRemove, onTaskEdit }: {task: TaskModel, onTaskRemove?, onTaskEdit?}) {
+export default function Task({ task, onRemoveTask, onEditTask }: {task: TaskModel, onRemoveTask?, onEditTask?}) {
   const {
     id, name, userTo, finalDate,
   } = task;
@@ -42,16 +42,16 @@ export default function Task({ task, onTaskRemove, onTaskEdit }: {task: TaskMode
           <Button size="small">{`${userTo.name} ${userTo.surname}`}</Button>
         </CardActions>
         <div className="butttons">
-          {!!onTaskRemove && (
+          {!!onRemoveTask && (
           <button
-            onClick={() => onTaskRemove(id)}
+            onClick={() => onRemoveTask(id)}
           >
             <DeleteForeverIcon color="error" />
           </button>
           )}
-          {!!onTaskEdit && (
+          {!!onEditTask && (
           <button
-            onClick={() => onTaskEdit(id)}
+            onClick={() => onEditTask(id)}
           >
             <EditIcon />
           </button>

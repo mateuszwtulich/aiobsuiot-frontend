@@ -11,9 +11,19 @@ import TaskForm from "./TaskForm";
 import SimpleLoader from "./SimpleLoader";
 import ErrorMessage from "./ErrorMessage";
 import { useAuth } from "contexts/AuthContext";
-import { canAddTask, canGetTasks, canRemoveTask } from "permissions";
+import {
+  canAddTask,
+  canGetTasks,
+  canRemoveTask,
+  canEditTask,
+} from "permissions";
 import AccessDenied from "./AccessDenied";
-import { addTask, fetchTasks, removeTask } from "services/tasksService";
+import {
+  addTask,
+  fetchTasks,
+  removeTask,
+  editTask,
+} from "services/tasksService";
 
 export default function AdminTasks() {
   const [tasks, setTasks] = useState<TaskModel[]>([]);
@@ -26,6 +36,7 @@ export default function AdminTasks() {
   const _canRemoveTask: boolean = canRemoveTask(authUser);
   const _canGetTasks: boolean = canGetTasks(authUser);
   const _canAddTask: boolean = canAddTask(authUser);
+  const _canEditTask: boolean = canEditTask(authUser);
 
   useEffect(() => {
     fetch();
@@ -42,9 +53,7 @@ export default function AdminTasks() {
     setLoading(false);
   };
 
-  const handleAddTask = async (newTask: TaskModel) => {
-    const { err } = await addTask({ task: newTask, userId: authUser.userId });
-
+  const handleErrorAndRefesh = async (err: string) => {
     if (err) {
       setError(err);
     } else {
@@ -52,19 +61,35 @@ export default function AdminTasks() {
     }
 
     await fetch();
-    closeModal();
   };
 
-  const handleTaskRemove = async (taskId: string) => {
-    const { err } = await removeTask(taskId);
+  const handleTaskSubmit = async (newTask) => {
+    setTaskModalOpen(false);
+    setLoading(true);
 
-    if (err) {
-      setError(err);
+    if (edittingTask) {
+      const { err } = await editTask({
+        task: newTask,
+        userId: authUser.userId,
+      });
+      await handleErrorAndRefesh(err);
     } else {
-      setError(null);
+      const { err } = await addTask({ task: newTask, userId: authUser.userId });
+      await handleErrorAndRefesh(err);
     }
 
-    await fetch();
+    setLoading(false);
+  };
+
+  const handleRemoveTask = async (userId: string) => {
+    const { err } = await removeTask(userId);
+    await handleErrorAndRefesh(err);
+  };
+
+  const handleEditTask = (taskId) => {
+    const task = (tasks || []).find(({ id }) => id === taskId);
+    setEdittingTask(task ?? null);
+    setTaskModalOpen(true);
   };
 
   const closeModal = () => {
@@ -97,7 +122,8 @@ export default function AdminTasks() {
             ) : (
               diaplayTasks({
                 tasks,
-                onTaskRemove: _canRemoveTask ? handleTaskRemove : null,
+                onRemoveTask: _canRemoveTask ? handleRemoveTask : null,
+                onEditTask: _canEditTask ? handleEditTask : null,
               })
             )}
           </>
@@ -105,18 +131,23 @@ export default function AdminTasks() {
           <AccessDenied />
         )}
         <CustomModal isOpen={isTaskModalOpen} closeModal={closeModal}>
-          <TaskForm task={edittingTask} submit={handleAddTask} />
+          <TaskForm task={edittingTask} submit={handleTaskSubmit} />
         </CustomModal>
       </Wrapper>
     </div>
   );
 }
 
-const diaplayTasks = ({ tasks, onTaskRemove }) =>
+const diaplayTasks = ({ tasks, onRemoveTask, onEditTask }) =>
   tasks.length < 1 ? (
     <p>There is no tasks</p>
   ) : (
     tasks.map((task) => (
-      <Task key={task.id} task={task} onTaskRemove={onTaskRemove} />
+      <Task
+        key={task.id}
+        task={task}
+        onRemoveTask={onRemoveTask}
+        onEditTask={onEditTask}
+      />
     ))
   );

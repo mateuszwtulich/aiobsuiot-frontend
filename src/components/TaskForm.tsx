@@ -4,9 +4,9 @@ import Button from "@material-ui/core/Button";
 
 import "styles/TaskForm.scss";
 import Task from "models/Task";
-import formatDate from "utils/formatDate";
 import ErrorMessage from "components/ErrorMessage";
 import { MISSING_FORM_VALUES } from "consts/errors";
+import formatDate from "utils/formatDate";
 
 export default function TaskForm({
   task,
@@ -16,8 +16,8 @@ export default function TaskForm({
   submit;
 }) {
   const [name, setName] = useState<string>(task?.name ?? "");
-  const [finalDate, setFinalDate] = useState<Date>(
-    task?.finalDate ?? new Date()
+  const [finalDate, setFinalDate] = useState<string>(
+    task?.finalDate ?? formatDate(new Date())
   );
   const [error, setError] = useState<string | null>(null);
 
@@ -30,8 +30,7 @@ export default function TaskForm({
     }
 
     setError(null);
-    const newTask = { name, finalDate };
-    submit(newTask);
+    submit({ ...task, name, finalDate });
   };
 
   return (
@@ -50,8 +49,8 @@ export default function TaskForm({
         label="Due date"
         type="date"
         className="dateField"
-        defaultValue={formatDate(finalDate)}
-        onChange={(e) => setFinalDate(new Date(e.target.value))}
+        defaultValue={finalDate}
+        onChange={(e) => setFinalDate(formatDate(new Date(e.target.value)))}
         InputLabelProps={{ shrink: true }}
       />
       <br />
