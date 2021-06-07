@@ -34,6 +34,7 @@ export default function AdminRoles() {
   const [isRoleModalOpen, setRoleModalOpen] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+
   const { authUser } = useAuth();
 
   const _canRemoveRole: boolean = canRemoveRole(authUser);
@@ -61,19 +62,16 @@ export default function AdminRoles() {
 
   const handleAddRole = async (newRole) => {
     const { err } = await addRole(newRole);
-
     await handleErrorAndRefesh(err);
   };
 
   const handleRemoveRole = async (roleId: string) => {
     const { err } = await removeRole(roleId);
-
     await handleErrorAndRefesh(err);
   };
 
   const handleEditRole = async (role) => {
     const { err } = await editRole(role);
-
     await handleErrorAndRefesh(err);
   };
 
@@ -98,13 +96,17 @@ export default function AdminRoles() {
   };
 
   const handleSubmit = async (role) => {
+		setRoleModalOpen(false);
+    setLoading(true);
+
     if (edittingRole) {
-      handleEditRole(role);
+      await handleEditRole(role);
     } else {
-      handleAddRole(role);
+      await handleAddRole(role);
+     
     }
 
-    closeModal();
+    setLoading(false);
   };
 
   return (

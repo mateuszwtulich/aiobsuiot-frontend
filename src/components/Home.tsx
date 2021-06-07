@@ -7,7 +7,6 @@ import Header from "components/Header";
 import Wrapper from "components/Wrapper";
 import { useAuth } from "contexts/AuthContext";
 import {
-  canEditTask,
   canGetRoles,
   canGetTasks,
   canGetUsers,
@@ -17,7 +16,6 @@ export default function Home() {
   const { authUser } = useAuth();
   const _canGetUsers: boolean = canGetUsers(authUser);
   const _canGetTasks: boolean = canGetTasks(authUser);
-  const _canEditTask: boolean = canEditTask(authUser);
   const _canGetRoles: boolean = canGetRoles(authUser);
 
   return (
@@ -41,7 +39,7 @@ export default function Home() {
               <Link to="/tasks">My tasks</Link>
             </Button>
           )}
-          {_canEditTask && (
+          {_canGetTasks && (
             <Button variant="contained" color="primary" size="large">
               <Link to="/admin/tasks">Admin tasks</Link>
             </Button>

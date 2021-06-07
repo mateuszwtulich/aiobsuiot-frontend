@@ -17,6 +17,7 @@ import {
   MISSING_FORM_VALUES,
   INVALID_PASSWORD_FORMAT,
 } from "consts/errors";
+import InfoDialog from "./InfoDialog";
 
 export default function Signup() {
   const [email, setEmail] = useState<string>("");
@@ -25,6 +26,7 @@ export default function Signup() {
   const [name, setName] = useState<string>("");
   const [surname, setSurname] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
+  const [isInfoDialogOpened, setInfoDialogOpened] = useState(false);
 
   const isValid = () => {
     if (
@@ -59,8 +61,22 @@ export default function Signup() {
   const handleSignup = async () => {
     if (isValid()) {
       setError(null);
-      await signup({ email, password, name, surname });
+      const { err } = await signup({ email, password, name, surname });
+
+      if (err) {
+        setError(err);
+      } else {
+        handleOpenInfoDialog();
+      }
     }
+  };
+
+  const handleOpenInfoDialog = () => {
+    setInfoDialogOpened(true);
+  };
+
+  const handleCloseInfoDialog = () => {
+    setInfoDialogOpened(false);
   };
 
   return (
@@ -99,6 +115,14 @@ export default function Signup() {
             Sign up
           </Button>
         </form>
+
+        <InfoDialog
+          title="Confirm your email"
+          text="To finish sign up please log in to your email account and confirm email provided in form"
+          isOpen={isInfoDialogOpened}
+          closeInfoDialog={handleCloseInfoDialog}
+        />
+
         <p>Already have a account?</p>
         <Link to="/login">Log in</Link>
       </Wrapper>

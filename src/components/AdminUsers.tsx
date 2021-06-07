@@ -9,7 +9,12 @@ import UserModel from "models/User";
 import CustomModal from "./CustomModal";
 import UserForm from "./UserForm";
 import SimpleLoader from "./SimpleLoader";
-import { fetchUsers, addUser, removeUser } from "services/userService";
+import {
+  fetchUsers,
+  addUser,
+  removeUser,
+  editUser,
+} from "services/userService";
 import ErrorMessage from "./ErrorMessage";
 import { useAuth } from "contexts/AuthContext";
 import {
@@ -19,6 +24,7 @@ import {
   canEditUser,
 } from "permissions";
 import AccessDenied from "./AccessDenied";
+import InfoDialog from "./InfoDialog";
 
 export default function AdminUsers() {
   const [users, setUsers] = useState<UserModel[]>([]);
@@ -26,6 +32,7 @@ export default function AdminUsers() {
   const [loading, setLoading] = useState<boolean>(true);
   const [isUserkModalOpen, setUserModalOpen] = useState<boolean>(false);
   const [edittingUser, setEdittingUser] = useState<UserModel | null>(null);
+  const [isInfoDialogOpened, setInfoDialogOpened] = useState(false);
 
   const { authUser } = useAuth();
 
@@ -54,33 +61,52 @@ export default function AdminUsers() {
     setUserModalOpen(false);
   };
 
-  const handleUserSubmit = (newUser) => {
-    if (edittingUser) {
-      const newUsers = users.map((user) =>
-        user.id === edittingUser.id ? { ...user, ...newUser } : user
-      );
-      setUsers(newUsers);
-    } else {
-      addUser(newUser);
-      setUsers([...users, { id: Math.random() * 100, ...newUser }]);
-    }
-    closeModal();
-  };
-
-  const handleUserRemove = async (userId: string) => {
-    const { err } = await removeUser(userId);
-
+  const handleErrorAndRefesh = async (err: string) => {
     if (err) {
       setError(err);
     } else {
       setError(null);
     }
-    setUsers(users.filter(({ id }) => id !== userId));
+
+    await fetch();
+  };
+
+  const handleUserSubmit = async (newUser) => {
+    setUserModalOpen(false);
+    setLoading(true);
+
+    if (edittingUser) {
+      const { err } = await editUser(newUser);
+      await handleErrorAndRefesh(err);
+    } else {
+      const { err } = await addUser(newUser);
+      if (!err) {
+        handleOpenInfoDialog();
+      }
+      await handleErrorAndRefesh(err);
+    }
+
+    setLoading(false);
+  };
+
+  const handleUserRemove = async (userId: string) => {
+    const { err } = await removeUser(userId);
+
+    await handleErrorAndRefesh(err);
   };
 
   const handleUserEdit = (userId) => {
-    setEdittingUser(users.find(({ id }) => id === userId) ?? null);
+    const user = (users || []).find(({ id }) => id === userId);
+    setEdittingUser(user ?? null);
     setUserModalOpen(true);
+  };
+
+  const handleOpenInfoDialog = () => {
+    setInfoDialogOpened(true);
+  };
+
+  const handleCloseInfoDialog = () => {
+    setInfoDialogOpened(false);
   };
 
   return (
@@ -118,6 +144,13 @@ export default function AdminUsers() {
         <CustomModal isOpen={isUserkModalOpen} closeModal={closeModal}>
           <UserForm user={edittingUser} submit={handleUserSubmit} />
         </CustomModal>
+
+        <InfoDialog
+          title="Confirm your email"
+          text="To finish adding new user please log in to email account and confirm email provided in form"
+          isOpen={isInfoDialogOpened}
+          closeInfoDialog={handleCloseInfoDialog}
+        />
       </Wrapper>
     </div>
   );

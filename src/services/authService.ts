@@ -32,8 +32,6 @@ export async function login({ user }) {
 
     return { err: null, user: decodedUser };
   } catch (err) {
-    console.log(err);
-
     if (err.response && err.response.status === 403) {
       return { err: INVALID_CREDENTIALS, user: null };
     }
@@ -45,14 +43,15 @@ export async function login({ user }) {
 export async function signup(user) {
   const { email, name, surname, password } = user;
   try {
-    await axios.post("api/user/v1/user/signup", {
+    await axios.post("user/v1/user/signup", {
       email,
       name,
       surname,
       password,
     });
+
+    return { err: null, user: null };
   } catch (err) {
-    console.log(err);
     return { err: err.message, user: null };
   }
 }

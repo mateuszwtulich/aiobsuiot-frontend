@@ -10,11 +10,13 @@ import {
   INVALID_EMAIL,
   INVALID_PASSWORDS,
   MISSING_FORM_VALUES,
+  INVALID_PASSWORD_FORMAT,
 } from "consts/errors";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
+import hasPasswordValidFormat from "utils/hasPasswordValidFormat";
 
 export default function UserForm({
   user,
@@ -29,15 +31,16 @@ export default function UserForm({
   const [name, setName] = useState<string>(user?.name ?? "");
   const [surname, setSurname] = useState<string>(user?.surname ?? "");
   const [error, setError] = useState<string | null>(null);
-  const [role, setRole] = useState<string>(user?.roleEto?.id ?? "");
+  const [roleId, setRoleId] = useState<string | null>(
+    user?.roleEto?.id ?? null
+  );
 
   const isValid = () => {
     if (
       email.trim().length < 1 ||
       name.trim().length < 1 ||
-      password.trim().length < 1 ||
-      repeatedPassword.trim().length < 1 ||
-      surname.trim().length < 1
+      surname.trim().length < 1 ||
+      roleId === null
     ) {
       setError(MISSING_FORM_VALUES);
       return false;
@@ -48,9 +51,21 @@ export default function UserForm({
       return false;
     }
 
-    if (password !== repeatedPassword) {
-      setError(INVALID_PASSWORDS);
-      return false;
+    if (!user) {
+      if (password.trim().length < 1 || repeatedPassword.trim().length < 1) {
+        setError(MISSING_FORM_VALUES);
+        return false;
+      }
+
+      if (password !== repeatedPassword) {
+        setError(INVALID_PASSWORDS);
+        return false;
+      }
+
+      if (!hasPasswordValidFormat(password)) {
+        setError(INVALID_PASSWORD_FORMAT);
+        return false;
+      }
     }
 
     return true;
@@ -60,19 +75,19 @@ export default function UserForm({
     if (isValid()) {
       setError(null);
       const newUser = {
+        ...user,
         email,
         password,
-        repeatedPassword,
         name,
         surname,
-        role,
+        roleId,
       };
       submit(newUser);
     }
   };
 
   const handleRoleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setRole(event.target.value as string);
+    setRoleId(event.target.value as string);
   };
 
   return (
@@ -125,7 +140,7 @@ export default function UserForm({
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          value={role}
+          value={roleId}
           onChange={handleRoleChange}
         >
           <MenuItem value={100}>ADMIN</MenuItem>

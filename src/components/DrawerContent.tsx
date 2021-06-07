@@ -13,19 +13,13 @@ import LockOpenIcon from "@material-ui/icons/LockOpen";
 import AssignmentTurnedInIcon from "@material-ui/icons/AssignmentTurnedIn";
 import "styles/DrawerContent.scss";
 import { useAuth } from "contexts/AuthContext";
-import {
-  canEditTask,
-  canGetRoles,
-  canGetTasks,
-  canGetUsers,
-} from "permissions";
+import { canGetRoles, canGetTasks, canGetUsers } from "permissions";
 import { signOut } from "services/authService";
 
 export default function DrawerContent() {
   const { authUser } = useAuth();
   const _canGetUsers: boolean = canGetUsers(authUser);
   const _canGetTasks: boolean = canGetTasks(authUser);
-  const _canEditTask: boolean = canEditTask(authUser);
   const _canGetRoles: boolean = canGetRoles(authUser);
 
   const handleSignOut = () => {
@@ -46,7 +40,7 @@ export default function DrawerContent() {
             </Link>
           </ListItem>
         )}
-        {_canEditTask && (
+        {_canGetTasks && (
           <ListItem button>
             <Link to="/admin/tasks">
               <ListItemIcon>

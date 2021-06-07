@@ -8,7 +8,7 @@ type User = {
 	repeatedPassword?: string,
 	name: string,
 	surname: string,
-	role: string
+	roleId: string
 	roleEto?: RoleEto,
 	accountEto?: AccountEto,
 }

@@ -1,4 +1,5 @@
 import axios from "axios";
+import { ROLE_TO_REMOVE_HAS_USER_ASSIGNED } from "consts/errors";
 import RoleEto from "models/RoleEto";
 import { getToken } from "./authService";
 
@@ -17,8 +18,7 @@ export async function fetchPermissions() {
 
     return { err: null, permissions: res.data };
   } catch (err) {
-    console.log(err);
-    return { err, roles: [] };
+    return { err: err.message, roles: [] };
   }
 }
 
@@ -37,8 +37,7 @@ export async function fetchRole(roleId: string) {
 
     return { err: null, roles: res.data };
   } catch (err) {
-    console.log(err);
-    return { err, roles: [] };
+    return { err: err.message, roles: [] };
   }
 }
 
@@ -56,15 +55,12 @@ export async function fetchRoles() {
 
     return { err: null, roles: res.data };
   } catch (err) {
-    console.log(err);
-    return { err, roles: [] };
+    return { err: err.message, roles: [] };
   }
 }
 
 export async function addRole(role: RoleEto) {
   const token = getToken();
-
-  console.log(role);
 
   try {
     const res = await axios({
@@ -76,8 +72,7 @@ export async function addRole(role: RoleEto) {
 
     return { err: null, role: res.data };
   } catch (err) {
-    console.log(err);
-    return { err, role: null };
+    return { err: err.message, role: null };
   }
 }
 
@@ -94,8 +89,7 @@ export async function editRole(role: RoleEto) {
 
     return { err: null, role: res.data };
   } catch (err) {
-    console.log(err);
-    return { err, role: null };
+    return { err: err.message, role: null };
   }
 }
 
@@ -107,9 +101,13 @@ export async function removeRole(roleId: string) {
       url: `/user/v1/role/${roleId}`,
       headers: { Authorization: `Bearer ${token}` },
     });
+
     return { err: null };
   } catch (err) {
-    console.log(err);
-    return { err };
+    if (err.response.status === 422) {
+      return { err: ROLE_TO_REMOVE_HAS_USER_ASSIGNED, role: null };
+    }
+
+    return { err: err.message };
   }
 }
