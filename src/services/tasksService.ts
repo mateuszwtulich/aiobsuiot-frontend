@@ -1,5 +1,6 @@
 import axios from "axios";
 import Task from "models/Task";
+import { Enums } from "utils/enums";
 import { getToken } from "./authService";
 
 export async function fetchTasks() {
@@ -8,6 +9,7 @@ export async function fetchTasks() {
     const res = await axios({
       method: "get",
       url: "/task/v1/tasks",
+      baseURL: Enums.API,
       headers: { Authorization: `Bearer ${token}` },
     });
 
@@ -27,6 +29,7 @@ export async function fetchTask(taskId: string) {
     const res = await axios({
       method: "get",
       url: `/task/v1/tasks/${taskId}`,
+      baseURL: Enums.API,
       headers: { Authorization: `Bearer ${token}` },
     });
 
@@ -46,6 +49,7 @@ export async function fetchUserTasks(userId) {
     const res = await axios({
       method: "get",
       url: `/task/v1/tasks/user/${userId}`,
+      baseURL: Enums.API,
       headers: { Authorization: `Bearer ${token}` },
     });
     if (res.status === 204) {
@@ -72,6 +76,7 @@ export async function addTask({
     const res = await axios({
       method: "post",
       url: "/task/v1/task",
+      baseURL: Enums.API,
       headers: { Authorization: `Bearer ${token}` },
       data: {
         finalDate: finalDate,
@@ -100,6 +105,7 @@ export async function editTask({
     const res = await axios({
       method: "put",
       url: `/task/v1/task/${task.id}`,
+      baseURL: Enums.API,
       headers: { Authorization: `Bearer ${token}` },
       data: {
         finalDate: finalDate,
@@ -120,6 +126,7 @@ export async function removeTask(taskId: string) {
     await axios({
       method: "delete",
       url: `/task/v1/task/${taskId}`,
+      baseURL: Enums.API,
       headers: { Authorization: `Bearer ${token}` },
     });
     return { err: null };

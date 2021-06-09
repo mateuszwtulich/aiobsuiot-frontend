@@ -61,10 +61,10 @@ export default function Signup() {
   const handleSignup = async () => {
     if (isValid()) {
       setError(null);
-      const { err } = await signup({ email, password, name, surname });
+      const err  = await signup({ email, password, name, surname });
 
       if (err) {
-        setError(err);
+        setError(err.err);
       } else {
         handleOpenInfoDialog();
       }
