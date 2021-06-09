@@ -6,6 +6,7 @@ import User from "components/User";
 import Header from "components/Header";
 import Wrapper from "components/Wrapper";
 import UserModel from "models/User";
+import RoleModel from "models/RoleEto";
 import CustomModal from "./CustomModal";
 import UserForm from "./UserForm";
 import SimpleLoader from "./SimpleLoader";
@@ -25,9 +26,11 @@ import {
 } from "permissions";
 import AccessDenied from "./AccessDenied";
 import InfoDialog from "./InfoDialog";
+import { fetchRoles } from "services/roleService";
 
 export default function AdminUsers() {
   const [users, setUsers] = useState<UserModel[]>([]);
+  const [roles, setRoles] = useState<RoleModel[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [isUserkModalOpen, setUserModalOpen] = useState<boolean>(false);
@@ -52,6 +55,14 @@ export default function AdminUsers() {
       setError(err);
     } else {
       setUsers(fetchedUsers);
+    }
+
+    const { err: err1, roles: allRoles } = await fetchRoles();
+
+    if (err1) {
+      setError(err1);
+    } else {
+      setRoles(allRoles);
     }
     setLoading(false);
   };
@@ -142,7 +153,7 @@ export default function AdminUsers() {
           <AccessDenied />
         )}
         <CustomModal isOpen={isUserkModalOpen} closeModal={closeModal}>
-          <UserForm user={edittingUser} submit={handleUserSubmit} />
+          <UserForm user={edittingUser} submit={handleUserSubmit} roles = {roles} />
         </CustomModal>
 
         <InfoDialog

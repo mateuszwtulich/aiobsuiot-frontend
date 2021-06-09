@@ -17,13 +17,16 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import hasPasswordValidFormat from "utils/hasPasswordValidFormat";
+import RoleModel from "models/RoleEto";
 
 export default function UserForm({
   user,
   submit,
+  roles
 }: {
   user: User | null;
   submit;
+  roles : RoleModel[]
 }) {
   const [email, setEmail] = useState<string>(user?.accountEto?.email ?? "");
   const [password, setPassword] = useState<string>("");
@@ -143,9 +146,12 @@ export default function UserForm({
           value={roleId}
           onChange={handleRoleChange}
         >
-          <MenuItem value={100}>ADMIN</MenuItem>
-          <MenuItem value={101}>MANAGER</MenuItem>
-          <MenuItem value={102}>USER</MenuItem>
+       {roles
+          .map((role) => (
+            <MenuItem value={role.id}>
+              {role.name}
+            </MenuItem>
+          ))}
         </Select>
       </FormControl>
       <br />
