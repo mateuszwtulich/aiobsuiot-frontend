@@ -1,6 +1,7 @@
 import axios from "axios";
 import { ROLE_TO_REMOVE_HAS_USER_ASSIGNED } from "consts/errors";
 import RoleEto from "models/RoleEto";
+import { Enums } from "utils/enums";
 import { getToken } from "./authService";
 
 export async function fetchPermissions() {
@@ -9,6 +10,7 @@ export async function fetchPermissions() {
     const res = await axios({
       method: "get",
       url: "/user/v1/permissions",
+      baseURL: Enums.API,
       headers: { Authorization: `Bearer ${token}` },
     });
 
@@ -28,6 +30,7 @@ export async function fetchRole(roleId: string) {
     const res = await axios({
       method: "get",
       url: `/user/v1/roles/${roleId}`,
+      baseURL: Enums.API,
       headers: { Authorization: `Bearer ${token}` },
     });
 
@@ -47,6 +50,7 @@ export async function fetchRoles() {
     const res = await axios({
       method: "get",
       url: `/user/v1/roles/`,
+      baseURL: Enums.API,
       headers: { Authorization: `Bearer ${token}` },
     });
     if (res.status === 204) {
@@ -66,6 +70,7 @@ export async function addRole(role: RoleEto) {
     const res = await axios({
       method: "post",
       url: "/user/v1/role",
+      baseURL: Enums.API,
       headers: { Authorization: `Bearer ${token}` },
       data: role,
     });
@@ -83,6 +88,7 @@ export async function editRole(role: RoleEto) {
     const res = await axios({
       method: "put",
       url: `/user/v1/role/${role.id}`,
+      baseURL: Enums.API,
       headers: { Authorization: `Bearer ${token}` },
       data: role,
     });
@@ -99,6 +105,7 @@ export async function removeRole(roleId: string) {
     await axios({
       method: "delete",
       url: `/user/v1/role/${roleId}`,
+      baseURL: Enums.API,
       headers: { Authorization: `Bearer ${token}` },
     });
 

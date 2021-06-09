@@ -3,11 +3,16 @@ import jwt_decode from "jwt-decode";
 
 import { INVALID_CREDENTIALS, UNKNOWN_ERROR } from "consts/errors";
 import { AuthUserType } from "contexts/AuthContext";
+import { Enums } from "utils/enums";
 
 export async function login({ user }) {
   try {
-    const res = await axios.post("api/authenticate", user);
-
+    const res = await axios({
+      method: "post",
+      url: "/api/authenticate",
+      baseURL: Enums.API,
+      data: user});
+      
     if (res.status === 403) {
       throw new Error(UNKNOWN_ERROR);
     }
@@ -43,14 +48,16 @@ export async function login({ user }) {
 export async function signup(user) {
   const { email, name, surname, password } = user;
   try {
-    await axios.post("user/v1/user/signup", {
-      email,
-      name,
-      surname,
-      password,
-    });
-
-    return { err: null, user: null };
+    await axios({
+      method: "post",
+      url: "user/v1/user/signup",
+      baseURL: Enums.API,
+      data: {
+        email,
+        name,
+        surname,
+        password,
+      }});
   } catch (err) {
     return { err: err.message, user: null };
   }

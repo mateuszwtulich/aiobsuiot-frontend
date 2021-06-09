@@ -1,5 +1,6 @@
 import axios from "axios";
 import User from "models/User";
+import { Enums } from "utils/enums";
 import { getToken } from "./authService";
 
 export async function fetchUsers() {
@@ -8,6 +9,7 @@ export async function fetchUsers() {
     const res = await axios({
       method: "get",
       url: "/user/v1/users",
+      baseURL: Enums.API,
       headers: { Authorization: `Bearer ${token}` },
     });
 
@@ -27,6 +29,7 @@ export async function fetchUser(userId: string) {
     const res = await axios({
       method: "get",
       url: `/user/v1/users/${userId}`,
+      baseURL: Enums.API,
       headers: { Authorization: `Bearer ${token}` },
     });
 
@@ -46,6 +49,7 @@ export async function fetchUserRoles(userId: string) {
     const res = await axios({
       method: "get",
       url: `/user/v1/users/role/${userId}`,
+      baseURL: Enums.API,
       headers: { Authorization: `Bearer ${token}` },
     });
 
@@ -67,6 +71,7 @@ export async function addUser(user: User) {
     const res = await axios({
       method: "post",
       url: "/user/v1/user",
+      baseURL: Enums.API,
       headers: { Authorization: `Bearer ${token}` },
       data: {
         accountTo: {
@@ -92,6 +97,7 @@ export async function editUser(user: User) {
     const res = await axios({
       method: "put",
       url: `/user/v1/user/${user.id}`,
+      baseURL: Enums.API,
       headers: { Authorization: `Bearer ${token}` },
       data: {
         accountTo: {
@@ -115,6 +121,7 @@ export async function removeUser(userId: string) {
     await axios({
       method: "delete",
       url: `/user/v1/user/${userId}`,
+      baseURL: Enums.API,
       headers: { Authorization: `Bearer ${token}` },
     });
 
