@@ -111,12 +111,12 @@ export default function AdminRoles() {
 
   return (
     <div className="AdminRoles">
-      <Header title="Admin roles" />
+      <Header title="Roles" />
       <Wrapper className="content small-padding">
         {_canGetRoles ? (
           <>
             <div className="top">
-              <h2>Admin roles</h2>
+              <h2>Roles</h2>
               {_canAddRole && (
                 <Button
                   variant="contained"
