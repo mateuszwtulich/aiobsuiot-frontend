@@ -46,7 +46,7 @@ export default function DrawerContent() {
               <ListItemIcon>
                 <AssignmentTurnedInIcon />
               </ListItemIcon>
-              <ListItemText primary="Admin tasks" />
+              <ListItemText primary="All tasks" />
             </Link>
           </ListItem>
         )}
@@ -56,7 +56,7 @@ export default function DrawerContent() {
               <ListItemIcon>
                 <GroupIcon />
               </ListItemIcon>
-              <ListItemText primary="Admin users" />
+              <ListItemText primary="Users" />
             </Link>
           </ListItem>
         )}
@@ -66,7 +66,7 @@ export default function DrawerContent() {
               <ListItemIcon>
                 <AccessibilityNew />
               </ListItemIcon>
-              <ListItemText primary="Admin roles" />
+              <ListItemText primary="Roles" />
             </Link>
           </ListItem>
         )}
