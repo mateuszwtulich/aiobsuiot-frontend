@@ -122,7 +122,7 @@ export default function AdminUsers() {
 
   return (
     <div className="AdminUsers">
-      <Header title="Admin users" />
+      <Header title="Users" />
       <Wrapper className="content small-padding">
         {_canGetUsers ? (
           <>
