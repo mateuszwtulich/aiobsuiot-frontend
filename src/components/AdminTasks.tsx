@@ -99,12 +99,12 @@ export default function AdminTasks() {
 
   return (
     <div className="AdminTasks">
-      <Header title="Tasks" />
+      <Header title="All tasks" />
       <Wrapper className="content small-padding">
         {_canGetTasks ? (
           <>
             <div className="top">
-              <h2>Tasks</h2>
+              <h2>All tasks</h2>
               {_canAddTask && (
                 <Button
                   variant="contained"

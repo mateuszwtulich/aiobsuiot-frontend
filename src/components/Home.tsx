@@ -41,17 +41,17 @@ export default function Home() {
           )}
           {_canGetTasks && (
             <Button variant="contained" color="primary" size="large">
-              <Link to="/admin/tasks">Admin tasks</Link>
+              <Link to="/admin/tasks">All tasks</Link>
             </Button>
           )}
           {_canGetUsers && (
             <Button variant="contained" color="primary" size="large">
-              <Link to="/admin/users">Admin users</Link>
+              <Link to="/admin/users">Users</Link>
             </Button>
           )}
           {_canGetRoles && (
             <Button variant="contained" color="primary" size="large">
-              <Link to="/admin/roles">Admin roles</Link>
+              <Link to="/admin/roles">Roles</Link>
             </Button>
           )}
         </div>

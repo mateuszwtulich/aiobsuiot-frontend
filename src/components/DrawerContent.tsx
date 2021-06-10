@@ -46,7 +46,7 @@ export default function DrawerContent() {
               <ListItemIcon>
                 <AssignmentTurnedInIcon />
               </ListItemIcon>
-              <ListItemText primary="Tasks" />
+              <ListItemText primary="All tasks" />
             </Link>
           </ListItem>
         )}
